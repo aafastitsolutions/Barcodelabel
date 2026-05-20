@@ -1,0 +1,13 @@
+{
+  "name": "bls-license-generator",
+  "version": "1.0.0",
+  "description": "Barcode Label Studio - License Generator (Annual)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^30.0.0",
+    "tweetnacl": "^1.0.3"
+  }
+}

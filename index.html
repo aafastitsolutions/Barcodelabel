@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Barcode Label Studio</title>
+
+  <link rel="stylesheet" href="styles/app.css" />
+
+  <script src="libs/bwip-js-min.js"></script>
+  <script src="libs/xlsx.full.min.js"></script>
+  <script src="libs/nacl-fast.min.js"></script>
+</head>
+<body>
+
+<div id="licenseBanner" class="banner hidden">
+  <div>
+    <div class="banner-title" id="bannerTitle">Status licenta</div>
+    <div class="banner-body" id="bannerBody">Aplicatia ruleaza cu restrictii.</div>
+  </div>
+  <div class="banner-actions">
+    <button id="btnRenewLicense" type="button" class="primary">Reinnoieste</button>
+  </div>
+</div>
+
+<header class="app-header">
+  <div>
+    <h1>Barcode Label Studio</h1>
+    <span class="muted">Etichete Zebra, import Excel, export si trimitere ZPL</span>
+  </div>
+  <div class="header-badge">Bitmap ZPL activ</div>
+</header>
+
+<div class="machine-box">
+  <span class="machine-label">Machine ID</span>
+  <span id="machineIdValue" class="machine-id">-</span>
+  <button id="btnCopyMachineId" type="button" class="ghost compact">Copiaza</button>
+</div>
+
+<main>
+  <section class="panel controls-panel">
+    <div class="panel-heading">
+      <div>
+        <div class="panel-title">Eticheta</div>
+        <div class="panel-note">Configurare cod, continut si print.</div>
+      </div>
+    </div>
+
+    <div class="control-section">
+      <div class="section-title">Format si cod</div>
+    <div class="row">
+      <div>
+        <label>Sablon</label>
+        <select id="labelPreset" autocomplete="off">
+          <option value="50x32">50 x 32 mm</option>
+          <option value="50x25">50 x 25 mm</option>
+          <option value="110x260">110 x 260 mm / SSCC</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      <div>
+        <label>DPI</label>
+        <select id="dpi" autocomplete="off">
+          <option>203</option>
+          <option>300</option>
+          <option>600</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row compact-row">
+      <div>
+        <label>Latime</label>
+        <input id="wmm" type="number" step="0.1" value="50" autocomplete="off" />
+      </div>
+      <div>
+        <label>Inaltime</label>
+        <input id="hmm" type="number" step="0.1" value="32" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Tip cod</label>
+        <select id="bcid" autocomplete="off">
+          <option value="code128">Code 128</option>
+          <option value="code39">Code 39</option>
+          <option value="ean13">EAN-13</option>
+          <option value="ean8">EAN-8</option>
+          <option value="upca">UPC-A</option>
+          <option value="itf14">ITF-14</option>
+          <option value="qrcode">QR Code</option>
+          <option value="datamatrix">DataMatrix</option>
+          <option value="gs1datamatrix">GS1 DataMatrix</option>
+          <option value="sscc18">SSCC-18</option>
+          <option value="pdf417">PDF417</option>
+        </select>
+      </div>
+      <div>
+        <label>Mod print</label>
+        <select id="printMode" autocomplete="off">
+          <option value="label">Label printer</option>
+          <option value="a4">A4 sheet</option>
+        </select>
+      </div>
+    </div>
+    </div>
+
+    <div class="control-section">
+      <div class="section-title">Continut eticheta</div>
+    <div class="row">
+      <div>
+        <label>Valoare cod</label>
+        <input id="manualSku" value="TEST-12345" autocomplete="off" />
+      </div>
+      <div>
+        <label>Text jos manual</label>
+        <input id="manualDesc" value="Produs demo" autocomplete="off" />
+      </div>
+    </div>
+    <div class="pill inline-status" id="eanLiveStatus">-</div>
+
+    <div class="row">
+      <div>
+        <label>Text sus</label>
+        <input id="topTpl" value="" autocomplete="off" />
+      </div>
+      <div>
+        <label>Text jos</label>
+        <input id="bottomTpl" value="{descriere}" autocomplete="off" />
+      </div>
+    </div>
+    </div>
+
+    <div class="control-section">
+      <div class="section-title">Print si aliniere</div>
+
+    <div class="row">
+      <div>
+        <label>Marime cod (%)</label>
+        <input id="codeScalePct" type="number" step="1" value="85" autocomplete="off" />
+      </div>
+      <div>
+        <label>Text sus / jos (px)</label>
+        <input id="fontPx" type="text" value="16,16" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Distanta text-cod (px)</label>
+        <input id="textGapPx" type="number" value="1" autocomplete="off" />
+      </div>
+      <div>
+        <label>Print X (mm)</label>
+        <input id="printOffXmm" type="number" step="0.1" value="0" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Print Y (mm)</label>
+        <input id="printOffYmm" type="number" step="0.1" value="0" autocomplete="off" />
+      </div>
+      <div>
+        <label>Imprimanta</label>
+        <select id="printerName" autocomplete="off">
+          <option value="">Imprimanta implicita</option>
+        </select>
+      </div>
+    </div>
+    </div>
+
+    <div class="control-section">
+      <div class="section-title">Import si actiuni</div>
+    <div class="row">
+      <div>
+        <label>Import Excel</label>
+        <input id="file" type="file" accept=".xlsx,.xls" />
+        <div class="hint">Coloane Excel: <code>sku</code> sau <code>continut cod</code>, <code>text sus</code>, <code>text jos</code>.</div>
+      </div>
+      <div>
+        <label>Copii / rand Excel</label>
+        <input id="excelQty" type="number" min="1" max="999" step="1" value="1" autocomplete="off" />
+      </div>
+    </div>
+    <input id="printScalePct" type="hidden" value="100" />
+    <div class="hint" id="printStatus">Print Bitmap ZPL pentru Label printer.</div>
+
+    <div class="actions">
+      <button class="ghost" id="btnAddManual" type="button">Adauga</button>
+      <button class="ghost" id="btnClear" type="button">Goleste</button>
+    </div>
+    <div class="print-actions">
+      <button class="primary" id="btnPreview" type="button">Preview</button>
+      <div class="qty-control" title="Cate copii scoate pentru eticheta scrisa manual">
+        <span>Manual x</span>
+        <input id="manualQty" type="number" min="1" max="999" step="1" value="1" autocomplete="off" />
+      </div>
+      <button class="primary" id="btnPrint" type="button">Print</button>
+    </div>
+    </div>
+
+    <details class="advanced-settings">
+      <summary>Avansat</summary>
+
+      <div class="row">
+        <div>
+          <label>Cod custom preview</label>
+          <input id="bcidCustom" name="bcidCustom_field" autocomplete="off" placeholder="ex: gs1-128" />
+        </div>
+        <div>
+          <label>Status cod</label>
+          <div class="pill field-pill" id="bcidStatus">ZPL: code128</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Padding</label>
+          <input id="padPx" type="number" value="6" autocomplete="off" />
+        </div>
+        <div>
+          <label>Inaltime cod</label>
+          <input id="forceBarcodeHPx" type="number" value="0" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Offset cod X</label>
+          <input id="bcOffXmm" type="number" step="0.1" value="0" autocomplete="off" />
+        </div>
+        <div>
+          <label>Offset cod Y</label>
+          <input id="bcOffYmm" type="number" step="0.1" value="0" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Offset text sus X</label>
+          <input id="topOffXmm" type="number" step="0.1" value="0" autocomplete="off" />
+        </div>
+        <div>
+          <label>Offset text sus Y</label>
+          <input id="topOffYmm" type="number" step="0.1" value="0" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Offset text jos X</label>
+          <input id="botOffXmm" type="number" step="0.1" value="0" autocomplete="off" />
+        </div>
+        <div>
+          <label>Offset text jos Y</label>
+          <input id="botOffYmm" type="number" step="0.1" value="0" autocomplete="off" />
+        </div>
+      </div>
+    </details>
+
+    <details class="advanced-settings">
+      <summary>Zebra / licenta</summary>
+
+      <button class="ghost" id="btnExportZpl" type="button">Descarca labels.zpl</button>
+
+      <div class="row send-row">
+        <input id="zebraIp" placeholder="IP imprimanta, ex: 192.168.1.50" autocomplete="off" />
+        <button class="primary" id="btnSendZpl" type="button">Trimite</button>
+      </div>
+      <div class="hint" id="zplSendStatus">-</div>
+
+      <label>Licenta</label>
+      <input id="licenseFile" type="file" accept=".json" />
+      <div class="hint status-line" id="licenseStatus">Se verifica licenta...</div>
+    </details>
+  </section>
+
+  <section class="panel workspace-panel">
+    <div class="workspace-grid">
+      <div class="workspace-column">
+        <div class="panel-title">Lista etichete</div>
+        <div class="tablewrap">
+          <table id="tbl">
+            <thead><tr><th>#</th><th>Cod</th><th>Text sus</th><th>Text jos</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="workspace-column preview-column">
+        <div class="panel-title">Preview</div>
+        <div id="preview" class="previewArea"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="printRoot"></div>
+
+<script src="src/ui.js"></script>
+<script src="src/license.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>License Generator</title>
+  <style>
+    body{font-family:Arial, sans-serif;margin:18px;}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    label{display:block;margin-top:10px;font-weight:700}
+    input{padding:10px;border:1px solid #ccc;border-radius:10px;min-width:260px}
+    .card{border:1px solid #ddd;border-radius:16px;padding:14px;margin-top:12px}
+    button{padding:10px 14px;border:0;border-radius:12px;cursor:pointer}
+    button.primary{background:#111;color:#fff}
+    .hint{opacity:.75;font-size:12px;margin-top:6px}
+    code{font-family:monospace}
+  </style>
+</head>
+<body>
+  <h2>Barcode Label Studio — License Generator (Abonament anual)</h2>
+  <div class="card">
+    <div id="keysStatus">Chei: verific...</div>
+    <div class="hint">Citește <code>tools/keys.json</code> din proiectul principal.</div>
+    <div class="hint">Public key (de pus în aplicație): <code id="pubKey">—</code></div>
+  </div>
+
+  <div class="card">
+    <h3>Date client</h3>
+    <div class="row">
+      <div>
+        <label>Client (customer)</label>
+        <input id="customer" placeholder="SC EXEMPLU SRL" />
+      </div>
+      <div>
+        <label>License ID</label>
+        <input id="licenseId" placeholder="BLS-2026-000123" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Machine ID</label>
+        <input id="machineId" placeholder="lipit din aplicația clientului" />
+      </div>
+      <div>
+        <label>Plan</label>
+        <input id="plan" value="" placeholder="automat: PRO_1M / PRO_6M / PRO_12M" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Issued At</label>
+        <input id="issuedAt" value="2026-01-26" />
+      </div>
+      <div>
+        <label>Valabilitate</label>
+        <select id="durationMonths" style="padding:10px;border:1px solid #ccc;border-radius:10px;min-width:260px">
+          <option value="1">1 luna</option>
+          <option value="6">6 luni</option>
+          <option value="12" selected>12 luni</option>
+        </select>
+      </div>
+      <div>
+        <label>Grace days</label>
+        <input id="graceDays" value="7" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Renewal Of (opțional)</label>
+        <input id="renewalOf" placeholder="BLS-2025-..." />
+      </div>
+      <div>
+        <label>Override Expires (opțional)</label>
+        <input id="expiresOverride" placeholder="YYYY-MM-DD" />
+      </div>
+    </div>
+
+    <div class="hint">Implicit, expirarea = issuedAt + ani.</div>
+    <button class="primary" id="btnGenerate">Generează license.json</button>
+    <div class="hint" id="out">—</div>
+  </div>
+
+<script>
+(async ()=>{
+  const ks = await window.GenBridge.loadKeys();
+  const s = document.getElementById("keysStatus");
+  const pk = document.getElementById("pubKey");
+  if (!ks.ok){
+    s.textContent = "Chei: NU (lipsesc) — " + (ks.keysPath || "");
+    pk.textContent = "—";
+  } else {
+    s.textContent = "Chei: OK (" + ks.keysPath + ")";
+    pk.textContent = ks.publicKeyB64;
+  }
+
+  document.getElementById("btnGenerate").addEventListener("click", async ()=>{
+    const payload = {
+      customer: document.getElementById("customer").value.trim(),
+      licenseId: document.getElementById("licenseId").value.trim(),
+      machineId: document.getElementById("machineId").value.trim(),
+      plan: document.getElementById("plan").value.trim(),
+      issuedAt: document.getElementById("issuedAt").value.trim(),
+      durationMonths: document.getElementById("durationMonths").value,
+      graceDays: document.getElementById("graceDays").value.trim(),
+      renewalOf: document.getElementById("renewalOf").value.trim(),
+      expiresOverride: document.getElementById("expiresOverride").value.trim(),
+      features: ["ALL"]
+    };
+    try{
+      const res = await window.GenBridge.generate(payload);
+      document.getElementById("out").textContent = res.ok ? ("Salvat: " + res.filePath) : ("Anulat / Eroare: " + res.reason);
+      if (res.ok && res.publicKeyB64) document.getElementById("pubKey").textContent = res.publicKeyB64;
+    }catch(e){
+      document.getElementById("out").textContent = "Eroare: " + (e.message || e);
+      alert("Eroare: " + (e.message || e));
+    }
+  });
+})();
+</script>
+</body>
+</html>

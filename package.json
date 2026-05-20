@@ -1,0 +1,41 @@
+{
+  "name": "barcode-label-studio",
+  "version": "1.2.1",
+  "description": "Barcode Label Studio - Electron (All 5: modules, demo/full, offline license, Zebra LAN, EAN live)",
+  "main": "main.js",
+  "scripts": {
+    "postinstall": "node tools/copy-libs.js",
+    "start": "node scripts/start-electron.js",
+    "dist": "electron-builder",
+    "make-keys": "node tools/make-keys.js",
+    "make-license": "node tools/make-license.js",
+    "license-ui": "electron tools/license-ui-main.js",
+    "pack-client": "node scripts/pack-client.js"
+  },
+  "dependencies": {
+    "bwip-js": "^4.7.0",
+    "xlsx": "^0.18.5",
+    "tweetnacl": "^1.0.3",
+    "node-machine-id": "^1.1.12"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "ro.valentin.barcodelabelstudio",
+    "productName": "Barcode Label Studio",
+    "files": [
+      "index.html",
+      "main.js",
+      "styles/**",
+      "src/**",
+      "libs/**",
+      "scripts/start-electron.js"
+    ],
+    "win": {
+      "target": "nsis",
+      "signAndEditExecutable": false
+    }
+  }
+}
