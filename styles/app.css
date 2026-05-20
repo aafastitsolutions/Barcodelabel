@@ -42,14 +42,14 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  padding: 16px 22px 14px;
+  padding: 10px 20px 9px;
   background: rgba(255, 255, 255, 0.92);
   border-bottom: 1px solid var(--line);
 }
 
 .app-header h1 {
-  margin: 0 0 4px;
-  font-size: 20px;
+  margin: 0 0 3px;
+  font-size: 18px;
   font-weight: 750;
   letter-spacing: 0;
 }
@@ -84,7 +84,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 9px 22px;
+  padding: 7px 20px;
   background: #e1edf1;
   border-bottom: 1px solid var(--line);
 }
@@ -116,8 +116,8 @@ body {
 .update-status {
   display: inline-flex;
   align-items: center;
-  min-height: 30px;
-  padding: 5px 9px;
+  min-height: 28px;
+  padding: 4px 9px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #f8fbfc;
@@ -140,8 +140,8 @@ body {
 main {
   display: grid;
   grid-template-columns: minmax(620px, 0.95fr) minmax(520px, 1.05fr);
-  gap: var(--gap);
-  padding: var(--gap);
+  gap: 10px;
+  padding: 10px;
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -159,13 +159,13 @@ main {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-content: start;
-  gap: 12px;
-  padding: 14px;
+  gap: 10px;
+  padding: 10px;
   overflow: auto;
 }
 
 .workspace-panel {
-  padding: 14px;
+  padding: 10px;
   overflow: auto;
 }
 
@@ -197,7 +197,7 @@ main {
 
 .control-section {
   margin-top: 12px;
-  padding: 12px;
+  padding: 10px;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: linear-gradient(180deg, #ffffff 0%, #f8fbfc 100%);
@@ -215,7 +215,7 @@ main {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: #314a54;
   font-size: 11px;
   font-weight: 850;
@@ -225,7 +225,7 @@ main {
 .section-title::before {
   content: "";
   width: 6px;
-  height: 18px;
+  height: 16px;
   border-radius: 999px;
   background: var(--accent);
 }
@@ -247,12 +247,12 @@ main {
 .row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 12px;
-  margin-top: 10px;
+  gap: 9px;
+  margin-top: 8px;
 }
 
 .controls-panel .control-section .row {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .row:first-of-type {
@@ -266,8 +266,8 @@ main {
 .workspace-grid {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: minmax(390px, auto) minmax(220px, 1fr);
-  gap: 14px;
+  grid-template-rows: minmax(320px, auto) minmax(220px, 1fr);
+  gap: 10px;
   align-items: stretch;
   min-height: 100%;
 }
@@ -290,7 +290,7 @@ input,
 select,
 button {
   width: 100%;
-  min-height: 38px;
+  min-height: 34px;
   border: 1px solid var(--line-strong);
   border-radius: 7px;
   background: #fffdf7;
@@ -301,7 +301,7 @@ button {
 
 input,
 select {
-  padding: 7px 10px;
+  padding: 6px 9px;
   transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
 }
 
@@ -318,7 +318,7 @@ input[type="file"] {
 }
 
 button {
-  padding: 8px 12px;
+  padding: 7px 11px;
   font-weight: 750;
   cursor: pointer;
   transition: background-color 120ms ease, border-color 120ms ease, box-shadow 120ms ease, transform 80ms ease;
@@ -372,8 +372,8 @@ button.compact {
 .actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 12px;
+  gap: 8px;
+  margin-top: 10px;
 }
 
 .actions > * {
@@ -406,10 +406,10 @@ button.compact {
 .print-actions {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: 10px;
+  gap: 8px;
   align-items: center;
-  margin-top: 10px;
-  padding-top: 12px;
+  margin-top: 8px;
+  padding-top: 10px;
   border-top: 1px solid var(--line);
 }
 
@@ -443,15 +443,15 @@ button.compact {
 
 .advanced-settings {
   grid-column: 1 / -1;
-  margin-top: 12px;
-  padding: 0 12px 10px;
+  margin-top: 0;
+  padding: 0 10px 8px;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: #f8fbfc;
 }
 
 .advanced-settings summary {
-  padding: 8px 0 2px;
+  padding: 7px 0 1px;
   color: var(--primary-dark);
   cursor: pointer;
   font-size: 12px;
@@ -468,7 +468,7 @@ code {
 
 .tablewrap {
   flex: 1;
-  max-height: 320px;
+  max-height: none;
   overflow: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -510,8 +510,8 @@ tr:hover td {
   justify-content: center;
   flex: none;
   gap: 14px;
-  min-height: 390px;
-  padding: 16px;
+  min-height: 320px;
+  padding: 14px;
   border: 1px dashed var(--line-strong);
   border-radius: 8px;
   background: #eef7f4;
