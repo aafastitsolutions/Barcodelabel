@@ -230,6 +230,10 @@ main {
   background: var(--accent);
 }
 
+.compact-title {
+  margin-bottom: 8px;
+}
+
 .panel-subtitle {
   margin: 12px 0 6px;
   padding-top: 8px;
@@ -441,6 +445,12 @@ button.compact {
   min-height: 32px;
 }
 
+.error-status {
+  border-color: #f3b6b2;
+  background: #fff4f2;
+  color: var(--danger);
+}
+
 .advanced-settings {
   grid-column: 1 / -1;
   margin-top: 0;
@@ -528,6 +538,43 @@ button.compact {
   font-size: 12px;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.online-activation {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 253, 247, 0.72);
+}
+
+.activation-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.activation-actions button {
+  max-width: 180px;
+}
+
+.license-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.license-divider::before,
+.license-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--line);
 }
 
 .link-button {

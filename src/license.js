@@ -111,10 +111,14 @@
     }
   }
 
-  async function importLicenseFile(file){
-    const txt = await file.text();
+  async function importLicenseText(txt){
     localStorage.setItem("licenseFile", txt);
     return await loadLicenseFromStorage();
+  }
+
+  async function importLicenseFile(file){
+    const txt = await file.text();
+    return await importLicenseText(txt);
   }
 
   function policyFromLicense(res){
@@ -143,5 +147,5 @@
     return demoPolicy();
   }
 
-  window.License = { LICENSE_PUBLIC_KEY_B64, ADMIN_MODE, adminPolicy, demoPolicy, loadLicenseFromStorage, importLicenseFile, policyFromLicense };
+  window.License = { LICENSE_PUBLIC_KEY_B64, ADMIN_MODE, adminPolicy, demoPolicy, loadLicenseFromStorage, importLicenseText, importLicenseFile, policyFromLicense };
 })();

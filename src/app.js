@@ -16,6 +16,11 @@
 
       const state = { rows: [], license: { ok:false }, policy: License.demoPolicy() };
       const LICENSE_CONTACT_EMAIL = "aafastitsolutions@gmail.com";
+      const DEFAULT_ACTIVATION_URL = "https://license.aafastitsolutions.com/api/activate";
+
+      function activationUrl(){
+        return localStorage.getItem("activationApiUrl") || DEFAULT_ACTIVATION_URL;
+      }
 
       function licenseContactUrl(){
         const machineId = (document.getElementById("machineIdValue")?.textContent || "").trim();
@@ -39,6 +44,69 @@
           window.AppBridge.openExternal(url);
         } else {
           window.location.href = url;
+        }
+      }
+
+      function setOnlineActivationStatus(message, isError = false){
+        const node = document.getElementById("onlineActivationStatus");
+        if (!node) return;
+        node.textContent = message;
+        node.classList.toggle("error-status", !!isError);
+      }
+
+      async function activateOnlineLicense(){
+        const keyInput = document.getElementById("onlineLicenseKey");
+        const emailInput = document.getElementById("onlineLicenseEmail");
+        const btn = document.getElementById("btnActivateOnline");
+        const licenseKey = (keyInput && keyInput.value ? keyInput.value : "").trim();
+        const email = (emailInput && emailInput.value ? emailInput.value : "").trim();
+
+        if (!licenseKey) {
+          setOnlineActivationStatus("Introdu cheia Lemon Squeezy primita dupa plata.", true);
+          return;
+        }
+
+        try {
+          if (btn) btn.disabled = true;
+          setOnlineActivationStatus("Activez online...");
+          const machineId = window.AppBridge && window.AppBridge.getMachineId
+            ? await window.AppBridge.getMachineId()
+            : (document.getElementById("machineIdValue")?.textContent || "").trim();
+
+          const response = await fetch(activationUrl(), {
+            method: "POST",
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              licenseKey,
+              email,
+              machineId,
+              appVersion: document.getElementById("appVersion")?.textContent || ""
+            })
+          });
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok || !data.ok || !data.license) {
+            throw new Error(data.message || "Activarea online a esuat.");
+          }
+
+          state.license = await License.importLicenseText(JSON.stringify(data.license));
+          state.policy = License.policyFromLicense ? License.policyFromLicense(state.license) : License.demoPolicy();
+          if (!state.license.ok) {
+            throw new Error("Licenta primita nu a putut fi validata local.");
+          }
+
+          applyPolicyToUI();
+          updateLicenseUI();
+          refreshTable();
+          doPreview();
+          if (keyInput) keyInput.value = "";
+          setOnlineActivationStatus(`Licenta activata: ${data.plan || "PRO"} pana la ${data.expires || "-"}.`);
+        } catch (err) {
+          setOnlineActivationStatus(err && err.message ? err.message : "Activarea online a esuat.", true);
+        } finally {
+          if (btn) btn.disabled = false;
         }
       }
 
@@ -875,6 +943,7 @@
       el("btnPreview").addEventListener("click", doPreview);
       el("btnPrint").addEventListener("click", doPrint);
       el("btnRenewLicense").addEventListener("click", () => el("licenseFile").click());
+      el("btnActivateOnline").addEventListener("click", activateOnlineLicense);
       ["btnContactLicense", "btnLicenseEmail", "btnLicenseEmailText"].forEach((id) => {
         const node = document.getElementById(id);
         if (node) node.addEventListener("click", contactLicense);

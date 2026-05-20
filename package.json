@@ -1,6 +1,6 @@
 {
   "name": "barcode-label-studio",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "Barcode Label Studio - Zebra label printing, Excel import, offline licensing and automatic updates.",
   "author": "AA Fast IT Solutions <aafastitsolutions@gmail.com>",
   "main": "main.js",
@@ -12,7 +12,8 @@
     "make-keys": "node tools/make-keys.js",
     "make-license": "node tools/make-license.js",
     "license-ui": "electron tools/license-ui-main.js",
-    "pack-client": "node scripts/pack-client.js"
+    "pack-client": "node scripts/pack-client.js",
+    "license-server": "node server/license-server.js"
   },
   "dependencies": {
     "bwip-js": "^4.7.0",

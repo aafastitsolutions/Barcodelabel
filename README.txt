@@ -15,7 +15,8 @@ Instalare client
 2. Deschide aplicatia.
 3. Copiaza Machine ID din partea de sus.
 4. Trimite Machine ID la aafastitsolutions@gmail.com pentru emiterea licentei.
-5. Dupa primirea fisierului license.json, importa-l din sectiunea Zebra / licenta.
+5. Dupa plata online, introdu cheia Lemon Squeezy in sectiunea Zebra / licenta -> Activare online.
+6. Ca fallback, dupa primirea fisierului license.json, importa-l din sectiunea Zebra / licenta.
 
 Licente
 - Se pot emite licente pentru 1 luna, 6 luni sau 12 luni.
@@ -26,11 +27,18 @@ Update automat
 - Aplicatia verifica automat daca exista o versiune noua la pornire.
 - Cand update-ul este descarcat, utilizatorul poate instala imediat sau la urmatoarea pornire.
 
+Activare online Lemon Squeezy
+- Serverul de licente este in folderul server/.
+- Endpoint aplicatie: https://license.aafastitsolutions.com/api/activate
+- Webhook Lemon Squeezy: https://license.aafastitsolutions.com/api/webhooks/lemonsqueezy
+- Cheia privata de semnare se seteaza doar pe server, in BLS_LICENSE_SECRET_KEY_B64.
+
 Dezvoltare
 - Instalare dependinte: npm install
 - Rulare in dev: npm start
 - Build installer: npm run dist
 - Pachet client: npm run pack-client -- --customer "SC Client SRL" --license "C:\path\license.json"
+- Server licente local: npm run license-server
 
 Contact licenta si suport
 aafastitsolutions@gmail.com

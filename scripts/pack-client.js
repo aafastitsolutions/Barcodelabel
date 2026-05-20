@@ -109,8 +109,9 @@ Data pachet: ${ctx.date}
 - Apasa "Copiaza" si trimite codul pentru emiterea licentei.
 
 3) Activare licenta
-- Daca ai primit deja licenta: in aplicatie mergi la sectiunea Licenta si importa license.json din folderul License.
-- Daca nu ai licenta: trimite Machine ID si vei primi un license.json.
+- Daca ai primit cheia Lemon Squeezy dupa plata: in aplicatie mergi la Zebra / licenta -> Activare online.
+- Daca ai primit license.json: in aplicatie mergi la Zebra / licenta si importa license.json din folderul License.
+- Daca nu ai niciuna: trimite Machine ID la suport si vei primi instructiunile de activare.
 
 4) Valabilitate
 - Licentele pot fi emise pentru 1 luna, 6 luni sau 12 luni.
