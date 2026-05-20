@@ -35,6 +35,12 @@
   <span class="machine-label">Machine ID</span>
   <span id="machineIdValue" class="machine-id">-</span>
   <button id="btnCopyMachineId" type="button" class="ghost compact">Copiaza</button>
+  <div class="update-box">
+    <span id="appVersion" class="version-pill">v-</span>
+    <span id="updateStatus" class="update-status">Update: in asteptare.</span>
+    <button id="btnCheckUpdate" type="button" class="ghost compact">Update</button>
+    <button id="btnInstallUpdate" type="button" class="primary compact hidden">Instaleaza</button>
+  </div>
 </div>
 
 <main>
@@ -279,7 +285,11 @@
 
   <section class="panel workspace-panel">
     <div class="workspace-grid">
-      <div class="workspace-column">
+      <div class="workspace-column preview-column">
+        <div class="panel-title">Preview</div>
+        <div id="preview" class="previewArea"></div>
+      </div>
+      <div class="workspace-column list-column">
         <div class="panel-title">Lista etichete</div>
         <div class="tablewrap">
           <table id="tbl">
@@ -287,10 +297,6 @@
             <tbody></tbody>
           </table>
         </div>
-      </div>
-      <div class="workspace-column preview-column">
-        <div class="panel-title">Preview</div>
-        <div id="preview" class="previewArea"></div>
       </div>
     </div>
   </section>

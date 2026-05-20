@@ -1,0 +1,65 @@
+name: Build and publish Windows release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Read package version
+        shell: pwsh
+        run: |
+          $pkg = Get-Content package.json -Raw | ConvertFrom-Json
+          $version = $pkg.version
+          if (-not $version) {
+            throw "package.json nu contine campul version."
+          }
+
+          $tag = "v$version"
+          if ("${{ github.event_name }}" -eq "push" -and "${{ github.ref_type }}" -eq "tag") {
+            $currentTag = "${{ github.ref_name }}"
+            if ($currentTag -ne $tag) {
+              throw "Tag-ul $currentTag nu corespunde cu package.json ($tag)."
+            }
+          }
+
+          "APP_VERSION=$version" >> $env:GITHUB_ENV
+          "RELEASE_TAG=$tag" >> $env:GITHUB_ENV
+
+      - name: Build installer
+        run: npm run dist -- --publish never
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: Barcode Label Studio ${{ env.APP_VERSION }}
+          make_latest: true
+          draft: false
+          prerelease: false
+          files: |
+            dist/Barcode-Label-Studio-Setup-${{ env.APP_VERSION }}.exe
+            dist/Barcode-Label-Studio-Setup-${{ env.APP_VERSION }}.exe.blockmap
+            dist/latest.yml

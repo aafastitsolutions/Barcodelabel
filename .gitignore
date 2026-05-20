@@ -1,2 +1,4 @@
 node_modules/
 dist/
+tools/keys.json
+*.license.json

@@ -1,5 +1,6 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const { machineIdSync } = require('node-machine-id');
+const { autoUpdater } = require("electron-updater");
 
 
 // ===== Machine ID IPC =====
@@ -10,6 +11,81 @@ const fs = require("fs");
 const crypto = require("crypto");
 const net = require("net");
 const { execFile } = require("child_process");
+
+let mainWindow = null;
+let updateStatus = {
+  state: "idle",
+  message: "Update: in asteptare.",
+  version: app.getVersion(),
+};
+
+function sendUpdateStatus(patch) {
+  updateStatus = { ...updateStatus, ...patch, version: app.getVersion() };
+  for (const win of BrowserWindow.getAllWindows()) {
+    win.webContents.send("update:status", updateStatus);
+  }
+}
+
+function setupAutoUpdater() {
+  autoUpdater.autoDownload = true;
+  autoUpdater.autoInstallOnAppQuit = true;
+
+  autoUpdater.on("checking-for-update", () => {
+    sendUpdateStatus({ state: "checking", message: "Verific update..." });
+  });
+  autoUpdater.on("update-available", (info) => {
+    sendUpdateStatus({ state: "available", message: `Update disponibil: ${info.version}. Se descarca...`, availableVersion: info.version });
+  });
+  autoUpdater.on("update-not-available", () => {
+    sendUpdateStatus({ state: "none", message: `Ai ultima versiune (${app.getVersion()}).` });
+  });
+  autoUpdater.on("download-progress", (progress) => {
+    const percent = Math.max(0, Math.min(100, Math.round(progress.percent || 0)));
+    sendUpdateStatus({ state: "downloading", message: `Descarc update: ${percent}%`, percent });
+  });
+  autoUpdater.on("update-downloaded", (info) => {
+    sendUpdateStatus({ state: "downloaded", message: `Update ${info.version} descarcat. Se poate instala acum sau la inchiderea aplicatiei.`, availableVersion: info.version });
+    const win = BrowserWindow.getAllWindows()[0] || mainWindow;
+    const prompt = {
+      type: "info",
+      buttons: ["Instaleaza acum", "La urmatoarea pornire"],
+      defaultId: 0,
+      cancelId: 1,
+      title: "Update disponibil",
+      message: `Barcode Label Studio ${info.version} este pregatit.`,
+      detail: "Poti instala acum, iar aplicatia se va reporni automat. Daca alegi mai tarziu, update-ul se instaleaza cand inchizi aplicatia si va fi activ la urmatoarea pornire."
+    };
+    const showPrompt = win ? dialog.showMessageBox(win, prompt) : dialog.showMessageBox(prompt);
+    showPrompt.then(({ response }) => {
+      if (response === 0) {
+        sendUpdateStatus({ state: "installing", message: "Instalez update si repornesc aplicatia..." });
+        autoUpdater.quitAndInstall(false, true);
+      } else {
+        sendUpdateStatus({ state: "queued", message: `Update ${info.version} se instaleaza la inchiderea aplicatiei.` });
+      }
+    }).catch(() => {});
+  });
+  autoUpdater.on("error", (err) => {
+    sendUpdateStatus({ state: "error", message: `Update error: ${err && err.message ? err.message : String(err)}` });
+  });
+}
+
+async function checkForUpdates(manual = false) {
+  if (!app.isPackaged) {
+    const msg = "Update automat se testeaza din aplicatia instalata, nu din npm start.";
+    sendUpdateStatus({ state: "dev", message: msg });
+    return { ok: false, message: msg };
+  }
+
+  try {
+    await autoUpdater.checkForUpdates();
+    return { ok: true };
+  } catch (e) {
+    const message = e && e.message ? e.message : String(e);
+    sendUpdateStatus({ state: "error", message: `Update error: ${message}` });
+    return { ok: false, message };
+  }
+}
 
 function getMachineId() {
   // Single source of truth for Machine ID (same as shown in UI & used in licensing)
@@ -174,10 +250,14 @@ function createWindow() {
   });
 
   win.loadFile(path.join(__dirname, "index.html"));
+  mainWindow = win;
+  return win;
 }
 
 app.whenReady().then(() => {
   createWindow();
+  setupAutoUpdater();
+  setTimeout(() => checkForUpdates(false), 3500);
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
@@ -186,6 +266,13 @@ app.whenReady().then(() => {
 app.on("window-all-closed", () => app.quit());
 
 ipcMain.handle("app:getMachineId", async () => getMachineId());
+ipcMain.handle("app:getVersion", async () => app.getVersion());
+ipcMain.handle("update:getStatus", async () => updateStatus);
+ipcMain.handle("update:check", async () => checkForUpdates(true));
+ipcMain.handle("update:install", async () => {
+  autoUpdater.quitAndInstall(false, true);
+  return { ok: true };
+});
 
 ipcMain.handle("print:listPrinters", async (event) => {
   try {

@@ -559,7 +559,7 @@
       function doPreview(){
         const preview = el("preview");
         preview.innerHTML = "";
-        const rows = rowsForWork(12);
+        const rows = rowsForWork(1);
         const dpi = parseInt(el("dpi").value,10);
         const wmm = parseFloat(el("wmm").value);
         const labelWpx = mmToPx(wmm, dpi);
@@ -942,6 +942,47 @@
       doPreview();
       initLicense();
       loadPrinterList();
+
+      function setUpdateUi(status){
+        const statusEl = document.getElementById("updateStatus");
+        const installBtn = document.getElementById("btnInstallUpdate");
+        if (!statusEl) return;
+        const message = status && status.message ? status.message : "Update: in asteptare.";
+        statusEl.textContent = message;
+        if (installBtn) installBtn.classList.toggle("hidden", !(status && status.state === "downloaded"));
+      }
+
+      (async ()=>{
+        const versionEl = document.getElementById("appVersion");
+        const checkBtn = document.getElementById("btnCheckUpdate");
+        const installBtn = document.getElementById("btnInstallUpdate");
+
+        if (window.AppBridge && window.AppBridge.getAppVersion && versionEl) {
+          const version = await window.AppBridge.getAppVersion();
+          versionEl.textContent = `v${version}`;
+        }
+
+        if (window.AppBridge && window.AppBridge.getUpdateStatus) {
+          setUpdateUi(await window.AppBridge.getUpdateStatus());
+        }
+        if (window.AppBridge && window.AppBridge.onUpdateStatus) {
+          window.AppBridge.onUpdateStatus(setUpdateUi);
+        }
+        if (checkBtn && window.AppBridge && window.AppBridge.checkForUpdates) {
+          checkBtn.addEventListener("click", async () => {
+            setUpdateUi({ state: "checking", message: "Verific update..." });
+            const res = await window.AppBridge.checkForUpdates();
+            if (res && res.ok === false && res.message) setUpdateUi({ state: "error", message: res.message });
+          });
+        }
+        if (installBtn && window.AppBridge && window.AppBridge.installUpdate) {
+          installBtn.addEventListener("click", async () => {
+            installBtn.disabled = true;
+            setUpdateUi({ state: "installing", message: "Instalez update..." });
+            await window.AppBridge.installUpdate();
+          });
+        }
+      })();
 
       // Machine ID display + copy
       (async ()=>{

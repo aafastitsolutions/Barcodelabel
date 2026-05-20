@@ -105,9 +105,41 @@ body {
   font-size: 12px;
 }
 
+.update-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.version-pill,
+.update-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbfc;
+  color: #405c62;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.update-status {
+  min-width: 220px;
+  justify-content: center;
+  color: var(--muted);
+}
+
+.hidden {
+  display: none !important;
+}
+
 main {
   display: grid;
-  grid-template-columns: 510px minmax(620px, 1fr);
+  grid-template-columns: minmax(620px, 0.95fr) minmax(520px, 1.05fr);
   gap: var(--gap);
   padding: var(--gap);
   flex: 1;
@@ -124,6 +156,10 @@ main {
 }
 
 .controls-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
+  gap: 12px;
   padding: 14px;
   overflow: auto;
 }
@@ -139,6 +175,11 @@ main {
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 12px;
+}
+
+.controls-panel .panel-heading {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
 }
 
 .panel-title {
@@ -160,6 +201,10 @@ main {
   border: 1px solid var(--line);
   border-radius: 10px;
   background: linear-gradient(180deg, #ffffff 0%, #f8fbfc 100%);
+}
+
+.controls-panel .control-section {
+  margin-top: 0;
 }
 
 .control-section:first-of-type {
@@ -206,6 +251,10 @@ main {
   margin-top: 10px;
 }
 
+.controls-panel .control-section .row {
+  grid-template-columns: 1fr;
+}
+
 .row:first-of-type {
   margin-top: 0;
 }
@@ -216,7 +265,8 @@ main {
 
 .workspace-grid {
   display: grid;
-  grid-template-columns: minmax(380px, 0.92fr) minmax(430px, 1.08fr);
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(390px, auto) minmax(220px, 1fr);
   gap: 14px;
   align-items: stretch;
   min-height: 100%;
@@ -392,6 +442,7 @@ button.compact {
 }
 
 .advanced-settings {
+  grid-column: 1 / -1;
   margin-top: 12px;
   padding: 0 12px 10px;
   border: 1px solid var(--line);
@@ -417,7 +468,7 @@ code {
 
 .tablewrap {
   flex: 1;
-  max-height: none;
+  max-height: 320px;
   overflow: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -455,15 +506,19 @@ tr:hover td {
 
 .previewArea {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  flex: 1;
+  align-items: center;
+  justify-content: center;
+  flex: none;
   gap: 14px;
-  min-height: 360px;
+  min-height: 390px;
   padding: 16px;
   border: 1px dashed var(--line-strong);
   border-radius: 8px;
   background: #eef7f4;
+}
+
+.list-column {
+  min-height: 220px;
 }
 
 .card {
@@ -547,6 +602,12 @@ tr:hover td {
   break-after: auto;
 }
 
+@media (min-width: 1540px) {
+  .controls-panel .control-section .row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
 @media (max-width: 1180px) {
   body {
     min-width: 0;
@@ -555,6 +616,18 @@ tr:hover td {
   main,
   .workspace-grid {
     grid-template-columns: 1fr;
+  }
+
+  .controls-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .previewArea {
+    min-height: 320px;
+  }
+
+  .tablewrap {
+    max-height: 280px;
   }
 }
 

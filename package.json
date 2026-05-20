@@ -1,12 +1,13 @@
 {
   "name": "barcode-label-studio",
-  "version": "1.2.1",
+  "version": "1.2.5",
   "description": "Barcode Label Studio - Electron (All 5: modules, demo/full, offline license, Zebra LAN, EAN live)",
   "main": "main.js",
   "scripts": {
     "postinstall": "node tools/copy-libs.js",
     "start": "node scripts/start-electron.js",
     "dist": "electron-builder",
+    "publish:github": "electron-builder --publish always",
     "make-keys": "node tools/make-keys.js",
     "make-license": "node tools/make-license.js",
     "license-ui": "electron tools/license-ui-main.js",
@@ -14,9 +15,10 @@
   },
   "dependencies": {
     "bwip-js": "^4.7.0",
-    "xlsx": "^0.18.5",
+    "electron-updater": "^6.8.3",
+    "node-machine-id": "^1.1.12",
     "tweetnacl": "^1.0.3",
-    "node-machine-id": "^1.1.12"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "electron": "^30.0.0",
@@ -25,6 +27,7 @@
   "build": {
     "appId": "ro.valentin.barcodelabelstudio",
     "productName": "Barcode Label Studio",
+    "artifactName": "Barcode-Label-Studio-Setup-${version}.${ext}",
     "files": [
       "index.html",
       "main.js",
@@ -33,9 +36,17 @@
       "libs/**",
       "scripts/start-electron.js"
     ],
+    "publish": {
+      "provider": "github",
+      "owner": "aafastitsolutions",
+      "repo": "Barcodelabel",
+      "releaseType": "release"
+    },
+    "electronUpdaterCompatibility": ">=2.16",
     "win": {
       "target": "nsis",
-      "signAndEditExecutable": false
+      "signAndEditExecutable": false,
+      "verifyUpdateCodeSignature": false
     }
   }
 }
