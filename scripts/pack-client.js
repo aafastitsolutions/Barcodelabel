@@ -7,6 +7,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const SUPPORT_EMAIL = "aafastitsolutions@gmail.com";
 
 function argMap(argv){
   const m = {};
@@ -34,6 +35,15 @@ function todayISO(){
 }
 
 function ensureDir(p){ fs.mkdirSync(p, { recursive:true }); }
+
+function readPackageVersion(){
+  try {
+    const pkg = JSON.parse(fs.readFileSync(path.resolve("package.json"), "utf8"));
+    return pkg.version || "";
+  } catch {
+    return "";
+  }
+}
 
 function findInstaller(distDir){
   if (!fs.existsSync(distDir)) return null;
@@ -111,11 +121,12 @@ Mod demo
 - Export ZPL si trimitere ZPL sunt blocate pana la activare.
 
 Update aplicatie
-- Cand primesti un installer mai nou, ruleaza-l peste versiunea existenta.
-- Licenta ramane pe acelasi calculator; daca este nevoie, reimporta license.json.
+- Aplicatia verifica automat versiunile noi la pornire.
+- Cand apare un update, il descarca si cere instalare sau il instaleaza la urmatoarea pornire.
+- Licenta ramane pe acelasi calculator dupa update.
 
 Suport
-- Contact: _______________________
+- Contact licenta si suport: ${SUPPORT_EMAIL}
 `;
   fs.writeFileSync(dstPath, txt, "utf8");
 }
@@ -130,7 +141,7 @@ function main(){
   }
 
   const customer = args.customer || cfg.customer || "Client";
-  const version = args.version || cfg.version || "";
+  const version = args.version || cfg.version || readPackageVersion();
   const licensePath = args.license || cfg.license || "";
   const distDir = path.resolve(cfg.distDir || args.distDir || "dist");
 

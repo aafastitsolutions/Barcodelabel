@@ -459,6 +459,94 @@ button.compact {
   list-style-position: inside;
 }
 
+.license-card {
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid #b9d6dc;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #ffffff 0%, #edf8f7 100%);
+}
+
+.license-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.license-kicker {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.license-title {
+  margin-top: 2px;
+  color: #182f35;
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.license-note,
+.license-contact {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.license-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.license-stats > div {
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fffdf7;
+}
+
+.license-stats span {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.license-stats strong {
+  display: block;
+  overflow: hidden;
+  color: #12323a;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-button {
+  display: inline;
+  width: auto;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--primary-dark);
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+.link-button:hover:not(:disabled) {
+  box-shadow: none;
+  transform: none;
+}
+
 code {
   padding: 2px 5px;
   border-radius: 6px;
@@ -628,6 +716,10 @@ tr:hover td {
 
   .tablewrap {
     max-height: 280px;
+  }
+
+  .license-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

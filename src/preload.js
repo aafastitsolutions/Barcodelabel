@@ -4,6 +4,7 @@ contextBridge.exposeInMainWorld("AppBridge", {
   readAutoLicense: () => ipcRenderer.invoke("app:readAutoLicense"),
   getMachineId: () => ipcRenderer.invoke("app:getMachineId"),
   getAppVersion: () => ipcRenderer.invoke("app:getVersion"),
+  openExternal: (url) => ipcRenderer.invoke("app:openExternal", url),
   getUpdateStatus: () => ipcRenderer.invoke("update:getStatus"),
   checkForUpdates: () => ipcRenderer.invoke("update:check"),
   installUpdate: () => ipcRenderer.invoke("update:install"),

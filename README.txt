@@ -1,54 +1,36 @@
-# Barcode Label Studio — Electron (All 5 upgrades)
+Barcode Label Studio
 
-Includes:
-1) DEMO vs FULL gating (DEMO: max 20 labels, ZPL export/send blocked, watermark)
-2) Offline license import (signed JSON) + machine binding
-3) Send ZPL directly to Zebra over LAN (TCP 9100)
-4) Live EAN-8 / EAN-13 validation + digits-only normalization
-5) Refactor: logic moved into src/ + styles/
+Aplicatie desktop pentru generare si printare etichete cu coduri de bare, QR, DataMatrix, GS1 DataMatrix si SSCC.
 
-## Install
-npm install
-(After install, libs/ is auto-populated from node_modules via tools/copy-libs.js)
+Functii principale
+- Print Zebra prin Bitmap ZPL.
+- Import Excel cu coloane: sku/continut cod, text sus, text jos.
+- Preview rapid pentru prima eticheta.
+- Licentiere offline pe Machine ID.
+- Mod demo: maxim 5 etichete fara licenta activa.
+- Update automat prin GitHub Releases.
 
-## Run
-npm start
+Instalare client
+1. Ruleaza installerul Barcode-Label-Studio-Setup-<versiune>.exe.
+2. Deschide aplicatia.
+3. Copiaza Machine ID din partea de sus.
+4. Trimite Machine ID la aafastitsolutions@gmail.com pentru emiterea licentei.
+5. Dupa primirea fisierului license.json, importa-l din sectiunea Zebra / licenta.
 
-## Build installer
-npm run dist
+Licente
+- Se pot emite licente pentru 1 luna, 6 luni sau 12 luni.
+- La reinnoire, clientul primeste un license.json nou si il importa in aplicatie.
+- Licenta ramane valida dupa update, pe acelasi calculator.
 
-## Licensing (admin)
-- Generate keys (first run): npm run make-keys
-- Generate license.json: edit tools/make-license.js payload, run again: npm run make-license
-- Paste public key from tools/keys.json into src/license.js (LICENSE_PUBLIC_KEY_B64)
-- In the app, import tools/license.json via the License file picker.
+Update automat
+- Aplicatia verifica automat daca exista o versiune noua la pornire.
+- Cand update-ul este descarcat, utilizatorul poate instala imediat sau la urmatoarea pornire.
 
+Dezvoltare
+- Instalare dependinte: npm install
+- Rulare in dev: npm start
+- Build installer: npm run dist
+- Pachet client: npm run pack-client -- --customer "SC Client SRL" --license "C:\path\license.json"
 
-NOTE: Renderer scripts are classic (no ES modules) for maximum Electron compatibility.
-
-
-ANNUAL SUBSCRIPTION:
-- license payload supports: issuedAt, expires (YYYY-MM-DD), graceDays
-- When expired: app enters READ-ONLY (preview/import OK; ZPL export/send blocked)
-
-
-
-LICENSE GENERATOR (UI):
-- Folder: tools/LicenseGenerator
-- Run: npm run license-ui
-- Uses tools/keys.json from main project.
-- Generates annual licenses (expires = issuedAt + years) with optional graceDays.
-
-RENEWAL:
-- In main app, use banner button 'Reînnoiește licența' (opens license import).
-- Import overwrites previous license in storage (safe renewal).
-
-
-
-PACK CLIENT (delivery folder):
-1) Build installer: npm run dist
-2) Create delivery pack:
-   - npm run pack-client -- --customer "SC Client SRL" --license "C:\path\license.json"
-   - or use config: npm run pack-client -- --config scripts\client-pack.config.json
-Output folder:
-   Delivery_<Customer>_<YYYY-MM-DD>\
+Contact licenta si suport
+aafastitsolutions@gmail.com

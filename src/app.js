@@ -15,6 +15,33 @@
       const el = UI.el;
 
       const state = { rows: [], license: { ok:false }, policy: License.demoPolicy() };
+      const LICENSE_CONTACT_EMAIL = "aafastitsolutions@gmail.com";
+
+      function licenseContactUrl(){
+        const machineId = (document.getElementById("machineIdValue")?.textContent || "").trim();
+        const version = (document.getElementById("appVersion")?.textContent || "").trim();
+        const subject = "Licenta Barcode Label Studio";
+        const body = [
+          "Buna ziua,",
+          "",
+          "Am nevoie de licenta pentru Barcode Label Studio.",
+          machineId && machineId !== "-" ? `Machine ID: ${machineId}` : "Machine ID: ",
+          version ? `Versiune aplicatie: ${version}` : "",
+          "",
+          "Multumesc."
+        ].filter(Boolean).join("\n");
+        return `mailto:${LICENSE_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      }
+
+      function contactLicense(){
+        const url = licenseContactUrl();
+        if (window.AppBridge && window.AppBridge.openExternal) {
+          window.AppBridge.openExternal(url);
+        } else {
+          window.location.href = url;
+        }
+      }
+
       function setText(id, txt){
         const n = document.getElementById(id);
         if (n) n.textContent = (txt === undefined || txt === null || txt === "") ? "—" : String(txt);
@@ -97,9 +124,9 @@
           setText("licStatus", state.license.inGrace ? "EXPIRAT" : "ACTIVA");
 
           if (state.license.inGrace){
-            showBanner("Licenta expirata", `Aplicatia a trecut in demo: maxim ${max} etichete. Reincarca o licenta valida.`, true);
+            showBanner("Licenta expirata", `Aplicatia a trecut in demo: maxim ${max} etichete. Contact licenta: ${LICENSE_CONTACT_EMAIL}.`, true);
           } else if (typeof state.license.daysLeft === "number" && state.license.daysLeft <= 14){
-            showBanner("Licenta expira curand", `Mai ai ${state.license.daysLeft} zile pana la expirare (${exp}).`, true);
+            showBanner("Licenta expira curand", `Mai ai ${state.license.daysLeft} zile pana la expirare (${exp}). Contact: ${LICENSE_CONTACT_EMAIL}.`, true);
           } else {
             hideBanner();
           }
@@ -108,7 +135,7 @@
           setText("licPlan", "DEMO"); setText("licCustomer", "-"); setText("licId", "-");
           setText("licExpires", "-"); setText("licDaysLeft", "-");
           setText("licStatus", reason === "expired" ? "EXPIRAT" : "DEMO");
-          showBanner("Mod demo", `Fara licenta activa poti genera si printa maxim ${max} etichete. Export ZPL si trimitere ZPL sunt blocate.`, true);
+          showBanner("Mod demo", `Fara licenta activa poti genera si printa maxim ${max} etichete. Pentru licenta: ${LICENSE_CONTACT_EMAIL}.`, true);
         }
       }
 
@@ -288,7 +315,7 @@
         } else {
           const reason = state.license && state.license.reason ? state.license.reason : "no_license";
           const label = state.license && state.license.inGrace ? "licenta expirata" : reason;
-          el("licenseStatus").textContent = `Mod DEMO (${label}) - maxim ${max} etichete`;
+          el("licenseStatus").textContent = `Mod DEMO (${label}) - maxim ${max} etichete. Contact: ${LICENSE_CONTACT_EMAIL}`;
         }
 
         el("btnExportZpl").disabled = !exportAllowed;
@@ -848,6 +875,10 @@
       el("btnPreview").addEventListener("click", doPreview);
       el("btnPrint").addEventListener("click", doPrint);
       el("btnRenewLicense").addEventListener("click", () => el("licenseFile").click());
+      ["btnContactLicense", "btnLicenseEmail", "btnLicenseEmailText"].forEach((id) => {
+        const node = document.getElementById(id);
+        if (node) node.addEventListener("click", contactLicense);
+      });
       window.addEventListener("keydown", (ev) => {
         if ((ev.ctrlKey || ev.metaKey) && String(ev.key || "").toLowerCase() === "p") {
           ev.preventDefault();

@@ -19,7 +19,8 @@
     <div class="banner-body" id="bannerBody">Aplicatia ruleaza cu restrictii.</div>
   </div>
   <div class="banner-actions">
-    <button id="btnRenewLicense" type="button" class="primary">Reinnoieste</button>
+    <button id="btnContactLicense" type="button" class="ghost">Contact</button>
+    <button id="btnRenewLicense" type="button" class="primary">Incarca licenta</button>
   </div>
 </div>
 
@@ -277,9 +278,40 @@
       </div>
       <div class="hint" id="zplSendStatus">-</div>
 
-      <label>Licenta</label>
-      <input id="licenseFile" type="file" accept=".json" />
-      <div class="hint status-line" id="licenseStatus">Se verifica licenta...</div>
+      <div class="license-card">
+        <div class="license-card-head">
+          <div>
+            <div class="license-kicker">Activare aplicatie</div>
+            <div class="license-title">Licenta Barcode Label Studio</div>
+            <div class="license-note">Fara licenta activa, aplicatia ramane in demo cu limita de 5 etichete.</div>
+          </div>
+          <button class="ghost compact" id="btnLicenseEmail" type="button">Contact licenta</button>
+        </div>
+
+        <div class="license-stats">
+          <div>
+            <span>Status</span>
+            <strong id="licStatus">Se verifica</strong>
+          </div>
+          <div>
+            <span>Plan</span>
+            <strong id="licPlan">-</strong>
+          </div>
+          <div>
+            <span>Expira</span>
+            <strong id="licExpires">-</strong>
+          </div>
+          <div>
+            <span>Zile ramase</span>
+            <strong id="licDaysLeft">-</strong>
+          </div>
+        </div>
+
+        <label>Import license.json</label>
+        <input id="licenseFile" type="file" accept=".json" />
+        <div class="hint status-line" id="licenseStatus">Se verifica licenta...</div>
+        <div class="license-contact">Contact licenta: <button id="btnLicenseEmailText" type="button" class="link-button">aafastitsolutions@gmail.com</button></div>
+      </div>
     </details>
   </section>
 

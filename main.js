@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, shell } = require("electron");
 const { machineIdSync } = require('node-machine-id');
 const { autoUpdater } = require("electron-updater");
 
@@ -267,6 +267,13 @@ app.on("window-all-closed", () => app.quit());
 
 ipcMain.handle("app:getMachineId", async () => getMachineId());
 ipcMain.handle("app:getVersion", async () => app.getVersion());
+ipcMain.handle("app:openExternal", async (_event, url) => {
+  if (!/^mailto:/i.test(String(url || ""))) {
+    return { ok: false, message: "URL extern blocat." };
+  }
+  await shell.openExternal(url);
+  return { ok: true };
+});
 ipcMain.handle("update:getStatus", async () => updateStatus);
 ipcMain.handle("update:check", async () => checkForUpdates(true));
 ipcMain.handle("update:install", async () => {
