@@ -15,32 +15,41 @@
 
 <div id="licenseBanner" class="banner hidden">
   <div>
-    <div class="banner-title" id="bannerTitle">Status licenta</div>
-    <div class="banner-body" id="bannerBody">Aplicatia ruleaza cu restrictii.</div>
+    <div class="banner-title" id="bannerTitle" data-i18n="licenseStatusTitle">Status licenta</div>
+    <div class="banner-body" id="bannerBody" data-i18n="licenseRestricted">Aplicatia ruleaza cu restrictii.</div>
   </div>
   <div class="banner-actions">
     <button id="btnContactLicense" type="button" class="ghost">Contact</button>
-    <button id="btnRenewLicense" type="button" class="primary">Incarca licenta</button>
+    <button id="btnRenewLicense" type="button" class="primary" data-i18n="loadLicense">Incarca licenta</button>
   </div>
 </div>
 
 <header class="app-header">
   <div>
     <h1>Barcode Label Studio</h1>
-    <span class="muted">Etichete Zebra, import Excel, export si trimitere ZPL</span>
+    <span class="muted" data-i18n="appSubtitle">Etichete Zebra, import Excel, export si trimitere ZPL</span>
   </div>
-  <div class="header-badge">Bitmap ZPL activ</div>
+  <div class="header-actions">
+    <div class="header-badge" data-i18n="bitmapZplActive">Bitmap ZPL activ</div>
+    <div class="language-switch">
+      <label for="languageSelect" data-i18n="language">Limba</label>
+      <select id="languageSelect" autocomplete="off">
+        <option value="ro" data-i18n="languageRomanian">Romana</option>
+        <option value="en" data-i18n="languageEnglish">English</option>
+      </select>
+    </div>
+  </div>
 </header>
 
 <div class="machine-box">
   <span class="machine-label">Machine ID</span>
   <span id="machineIdValue" class="machine-id">-</span>
-  <button id="btnCopyMachineId" type="button" class="ghost compact">Copiaza</button>
+  <button id="btnCopyMachineId" type="button" class="ghost compact" data-i18n="copy">Copiaza</button>
   <div class="update-box">
     <span id="appVersion" class="version-pill">v-</span>
-    <span id="updateStatus" class="update-status">Update: in asteptare.</span>
+    <span id="updateStatus" class="update-status" data-i18n="updateIdle">Update: in asteptare.</span>
     <button id="btnCheckUpdate" type="button" class="ghost compact">Update</button>
-    <button id="btnInstallUpdate" type="button" class="primary compact hidden">Instaleaza</button>
+    <button id="btnInstallUpdate" type="button" class="primary compact hidden" data-i18n="install">Instaleaza</button>
   </div>
 </div>
 
@@ -48,16 +57,16 @@
   <section class="panel controls-panel">
     <div class="panel-heading">
       <div>
-        <div class="panel-title">Eticheta</div>
-        <div class="panel-note">Configurare cod, continut si print.</div>
+        <div class="panel-title" data-i18n="labelPanelTitle">Eticheta</div>
+        <div class="panel-note" data-i18n="labelPanelNote">Configurare cod, continut si print.</div>
       </div>
     </div>
 
     <div class="control-section">
-      <div class="section-title">Format si cod</div>
+      <div class="section-title" data-i18n="sectionFormat">Format si cod</div>
     <div class="row">
       <div>
-        <label>Sablon</label>
+        <label data-i18n="preset">Sablon</label>
         <select id="labelPreset" autocomplete="off">
           <option value="50x32">50 x 32 mm</option>
           <option value="50x25">50 x 25 mm</option>
@@ -77,18 +86,18 @@
 
     <div class="row compact-row">
       <div>
-        <label>Latime</label>
+        <label data-i18n="width">Latime</label>
         <input id="wmm" type="number" step="0.1" value="50" autocomplete="off" />
       </div>
       <div>
-        <label>Inaltime</label>
+        <label data-i18n="height">Inaltime</label>
         <input id="hmm" type="number" step="0.1" value="32" autocomplete="off" />
       </div>
     </div>
 
     <div class="row">
       <div>
-        <label>Tip cod</label>
+        <label data-i18n="barcodeType">Tip cod</label>
         <select id="bcid" autocomplete="off">
           <option value="code128">Code 128</option>
           <option value="code39">Code 39</option>
@@ -104,24 +113,24 @@
         </select>
       </div>
       <div>
-        <label>Mod print</label>
+        <label data-i18n="printMode">Mod print</label>
         <select id="printMode" autocomplete="off">
-          <option value="label">Label printer</option>
-          <option value="a4">A4 sheet</option>
+          <option value="label" data-i18n="labelPrinter">Imprimanta etichete</option>
+          <option value="a4" data-i18n="a4Sheet">Coala A4</option>
         </select>
       </div>
     </div>
     </div>
 
     <div class="control-section">
-      <div class="section-title">Continut eticheta</div>
+      <div class="section-title" data-i18n="sectionContent">Continut eticheta</div>
     <div class="row">
       <div>
-        <label>Valoare cod</label>
+        <label data-i18n="codeValue">Valoare cod</label>
         <input id="manualSku" value="TEST-12345" autocomplete="off" />
       </div>
       <div>
-        <label>Text jos manual</label>
+        <label data-i18n="manualBottomText">Text jos manual</label>
         <input id="manualDesc" value="Produs demo" autocomplete="off" />
       </div>
     </div>
@@ -129,33 +138,33 @@
 
     <div class="row">
       <div>
-        <label>Text sus</label>
+        <label data-i18n="topText">Text sus</label>
         <input id="topTpl" value="" autocomplete="off" />
       </div>
       <div>
-        <label>Text jos</label>
+        <label data-i18n="bottomText">Text jos</label>
         <input id="bottomTpl" value="{descriere}" autocomplete="off" />
       </div>
     </div>
     </div>
 
     <div class="control-section">
-      <div class="section-title">Print si aliniere</div>
+      <div class="section-title" data-i18n="sectionPrintAlign">Print si aliniere</div>
 
     <div class="row">
       <div>
-        <label>Marime cod (%)</label>
+        <label data-i18n="codeSize">Marime cod (%)</label>
         <input id="codeScalePct" type="number" step="1" value="85" autocomplete="off" />
       </div>
       <div>
-        <label>Text sus / jos (px)</label>
+        <label data-i18n="fontSize">Text sus / jos (px)</label>
         <input id="fontPx" type="text" value="16,16" autocomplete="off" />
       </div>
     </div>
 
     <div class="row">
       <div>
-        <label>Distanta text-cod (px)</label>
+        <label data-i18n="textCodeDistance">Distanta text-cod (px)</label>
         <input id="textGapPx" type="number" value="1" autocomplete="off" />
       </div>
       <div>
@@ -170,38 +179,38 @@
         <input id="printOffYmm" type="number" step="0.1" value="0" autocomplete="off" />
       </div>
       <div>
-        <label>Imprimanta</label>
+        <label data-i18n="printer">Imprimanta</label>
         <select id="printerName" autocomplete="off">
-          <option value="">Imprimanta implicita</option>
+          <option value="" data-i18n="defaultPrinter">Imprimanta implicita</option>
         </select>
       </div>
     </div>
     </div>
 
     <div class="control-section">
-      <div class="section-title">Import si actiuni</div>
+      <div class="section-title" data-i18n="sectionImportActions">Import si actiuni</div>
     <div class="row">
       <div>
         <label>Import Excel</label>
         <input id="file" type="file" accept=".xlsx,.xls" />
-        <div class="hint">Coloane Excel: <code>sku</code> sau <code>continut cod</code>, <code>text sus</code>, <code>text jos</code>.</div>
+        <div class="hint" data-i18n-html="excelColumns">Coloane Excel: <code>sku</code> sau <code>continut cod</code>, <code>text sus</code>, <code>text jos</code>.</div>
       </div>
       <div>
-        <label>Copii / rand Excel</label>
+        <label data-i18n="copiesPerExcelRow">Copii / rand Excel</label>
         <input id="excelQty" type="number" min="1" max="999" step="1" value="1" autocomplete="off" />
       </div>
     </div>
     <input id="printScalePct" type="hidden" value="100" />
-    <div class="hint" id="printStatus">Print Bitmap ZPL pentru Label printer.</div>
+    <div class="hint" id="printStatus" data-i18n="printStatusLabel">Print Bitmap ZPL pentru Label printer.</div>
 
     <div class="actions">
-      <button class="ghost" id="btnAddManual" type="button">Adauga</button>
-      <button class="ghost" id="btnClear" type="button">Goleste</button>
+      <button class="ghost" id="btnAddManual" type="button" data-i18n="add">Adauga</button>
+      <button class="ghost" id="btnClear" type="button" data-i18n="clear">Goleste</button>
     </div>
     <div class="print-actions">
       <button class="primary" id="btnPreview" type="button">Preview</button>
-      <div class="qty-control" title="Cate copii scoate pentru eticheta scrisa manual">
-        <span>Manual x</span>
+      <div class="qty-control" data-i18n-title="manualCopiesTitle" title="Cate copii scoate pentru eticheta scrisa manual">
+        <span data-i18n="manualCopies">Manual x</span>
         <input id="manualQty" type="number" min="1" max="999" step="1" value="1" autocomplete="off" />
       </div>
       <button class="primary" id="btnPrint" type="button">Print</button>
@@ -209,15 +218,15 @@
     </div>
 
     <details class="advanced-settings">
-      <summary>Avansat</summary>
+      <summary data-i18n="advanced">Avansat</summary>
 
       <div class="row">
         <div>
-          <label>Cod custom preview</label>
+          <label data-i18n="customPreviewCode">Cod custom preview</label>
           <input id="bcidCustom" name="bcidCustom_field" autocomplete="off" placeholder="ex: gs1-128" />
         </div>
         <div>
-          <label>Status cod</label>
+          <label data-i18n="codeStatus">Status cod</label>
           <div class="pill field-pill" id="bcidStatus">ZPL: code128</div>
         </div>
       </div>
@@ -228,7 +237,7 @@
           <input id="padPx" type="number" value="6" autocomplete="off" />
         </div>
         <div>
-          <label>Inaltime cod</label>
+          <label data-i18n="barcodeHeight">Inaltime cod</label>
           <input id="forceBarcodeHPx" type="number" value="0" autocomplete="off" />
         </div>
       </div>
@@ -268,24 +277,24 @@
     </details>
 
     <details class="advanced-settings">
-      <summary>Zebra / licenta</summary>
+      <summary data-i18n="zebraLicense">Zebra / licenta</summary>
 
-      <button class="ghost" id="btnExportZpl" type="button">Descarca labels.zpl</button>
+      <button class="ghost" id="btnExportZpl" type="button" data-i18n="downloadZpl">Descarca labels.zpl</button>
 
       <div class="row send-row">
-        <input id="zebraIp" placeholder="IP imprimanta, ex: 192.168.1.50" autocomplete="off" />
-        <button class="primary" id="btnSendZpl" type="button">Trimite</button>
+        <input id="zebraIp" data-i18n-placeholder="printerIpPlaceholder" placeholder="IP imprimanta, ex: 192.168.1.50" autocomplete="off" />
+        <button class="primary" id="btnSendZpl" type="button" data-i18n="send">Trimite</button>
       </div>
       <div class="hint" id="zplSendStatus">-</div>
 
       <div class="license-card">
         <div class="license-card-head">
           <div>
-            <div class="license-kicker">Activare aplicatie</div>
-            <div class="license-title">Licenta Barcode Label Studio</div>
-            <div class="license-note">Fara licenta activa, aplicatia ramane in demo cu limita de 5 etichete.</div>
+            <div class="license-kicker" data-i18n="appActivation">Activare aplicatie</div>
+            <div class="license-title" data-i18n="licenseTitle">Licenta Barcode Label Studio</div>
+            <div class="license-note" data-i18n="licenseNote">Fara licenta activa, aplicatia ramane in demo cu limita de 5 etichete.</div>
           </div>
-          <button class="ghost compact" id="btnLicenseEmail" type="button">Contact licenta</button>
+          <button class="ghost compact" id="btnLicenseEmail" type="button" data-i18n="licenseContact">Contact licenta</button>
         </div>
 
         <div class="license-stats">
@@ -298,39 +307,39 @@
             <strong id="licPlan">-</strong>
           </div>
           <div>
-            <span>Expira</span>
+            <span data-i18n="expires">Expira</span>
             <strong id="licExpires">-</strong>
           </div>
           <div>
-            <span>Zile ramase</span>
+            <span data-i18n="daysLeft">Zile ramase</span>
             <strong id="licDaysLeft">-</strong>
           </div>
         </div>
 
         <div class="online-activation">
-          <div class="section-title compact-title">Activare online</div>
+          <div class="section-title compact-title" data-i18n="onlineActivation">Activare online</div>
           <div class="row">
             <div>
-              <label>Cheie Lemon Squeezy</label>
+              <label data-i18n="lemonKey">Cheie Lemon Squeezy</label>
               <input id="onlineLicenseKey" autocomplete="off" placeholder="xxxx-xxxx-xxxx" />
             </div>
             <div>
-              <label>Email cumparare</label>
+              <label data-i18n="purchaseEmail">Email cumparare</label>
               <input id="onlineLicenseEmail" type="email" autocomplete="off" placeholder="client@firma.ro" />
             </div>
           </div>
           <div class="activation-actions">
-            <button class="primary" id="btnActivateOnline" type="button">Activeaza online</button>
+            <button class="primary" id="btnActivateOnline" type="button" data-i18n="activateOnline">Activeaza online</button>
           </div>
-          <div class="hint status-line" id="onlineActivationStatus">Introdu cheia primita dupa plata si activeaza pe acest calculator.</div>
+          <div class="hint status-line" id="onlineActivationStatus" data-i18n="onlineActivationHint">Introdu cheia primita dupa plata si activeaza pe acest calculator.</div>
         </div>
 
-        <div class="license-divider"><span>sau</span></div>
+        <div class="license-divider"><span data-i18n="or">sau</span></div>
 
         <label>Import license.json</label>
         <input id="licenseFile" type="file" accept=".json" />
-        <div class="hint status-line" id="licenseStatus">Se verifica licenta...</div>
-        <div class="license-contact">Contact licenta: <button id="btnLicenseEmailText" type="button" class="link-button">aafastitsolutions@gmail.com</button></div>
+        <div class="hint status-line" id="licenseStatus" data-i18n="checkingLicense">Se verifica licenta...</div>
+        <div class="license-contact"><span data-i18n="licenseContactLabel">Contact licenta:</span> <button id="btnLicenseEmailText" type="button" class="link-button">aafastitsolutions@gmail.com</button></div>
       </div>
     </details>
   </section>
@@ -342,10 +351,10 @@
         <div id="preview" class="previewArea"></div>
       </div>
       <div class="workspace-column list-column">
-        <div class="panel-title">Lista etichete</div>
+        <div class="panel-title" data-i18n="labelList">Lista etichete</div>
         <div class="tablewrap">
           <table id="tbl">
-            <thead><tr><th>#</th><th>Cod</th><th>Text sus</th><th>Text jos</th><th></th></tr></thead>
+            <thead><tr><th>#</th><th data-i18n="code">Cod</th><th data-i18n="topText">Text sus</th><th data-i18n="bottomText">Text jos</th><th></th></tr></thead>
             <tbody></tbody>
           </table>
         </div>

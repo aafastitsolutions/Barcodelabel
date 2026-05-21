@@ -387,10 +387,23 @@ ipcMain.handle("print:labels", async (event, { labels = [], mode, widthMm, heigh
   const isA4 = mode === "a4";
   const pageSize = isA4 ? "A4" : { width: Math.round(w * 1000), height: Math.round(h * 1000) };
   const pageRule = isA4 ? "A4" : `${w}mm ${h}mm`;
+  const a4Pad = 8;
+  const a4Gap = 2;
+  const a4Cols = Math.max(1, Math.floor(((210 - a4Pad * 2) + a4Gap) / (w + a4Gap)));
+  const a4Rows = Math.max(1, Math.floor(((297 - a4Pad * 2) + a4Gap) / (h + a4Gap)));
+  const a4PerPage = Math.max(1, a4Cols * a4Rows);
 
-  const labelHtml = labels.map((src) => (
-    `<div class="label-page"><img src="${escapeHtml(src)}" alt=""></div>`
-  )).join("");
+  const labelHtml = isA4
+    ? labels.reduce((html, _src, index) => {
+        if (index % a4PerPage !== 0) return html;
+        const pageLabels = labels.slice(index, index + a4PerPage).map((src) => (
+          `<div class="label-page"><img src="${escapeHtml(src)}" alt=""></div>`
+        )).join("");
+        return html + `<div class="sheet">${pageLabels}</div>`;
+      }, "")
+    : `<div class="sheet">${labels.map((src) => (
+        `<div class="label-page"><img src="${escapeHtml(src)}" alt=""></div>`
+      )).join("")}</div>`;
 
   const html = `<!doctype html>
 <html>
@@ -436,14 +449,21 @@ ipcMain.handle("print:labels", async (event, { labels = [], mode, widthMm, heigh
     @page { size: A4; margin: 0; }
     .sheet {
       width: 210mm;
-      min-height: 297mm;
-      padding: 8mm;
+      height: 297mm;
+      padding: ${a4Pad}mm;
       display: grid;
-      grid-template-columns: repeat(auto-fill, ${w}mm);
+      grid-template-columns: repeat(${a4Cols}, ${w}mm);
       grid-auto-rows: ${h}mm;
-      gap: 2mm;
+      gap: ${a4Gap}mm;
       align-content: start;
       justify-content: start;
+      overflow: hidden;
+      break-after: page;
+      page-break-after: always;
+    }
+    .sheet:last-child {
+      break-after: auto;
+      page-break-after: auto;
     }
     .label-page {
       break-after: auto;
@@ -451,7 +471,7 @@ ipcMain.handle("print:labels", async (event, { labels = [], mode, widthMm, heigh
     }` : ""}
   </style>
 </head>
-<body><div class="sheet">${labelHtml}</div></body>
+<body>${labelHtml}</body>
 </html>`;
 
   const printWin = new BrowserWindow({

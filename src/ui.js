@@ -8,6 +8,12 @@
       .replaceAll('"',"&quot;");
   }
   function digitsOnly(s){ return String(s ?? "").replace(/\D/g, ""); }
+  function t(key, vars, fallback){
+    if (window.BLS_TR) return window.BLS_TR(key, vars || {});
+    return String(fallback || key).replace(/\{([a-zA-Z0-9_]+)\}/g, (_m, name) => {
+      return vars && vars[name] !== undefined ? String(vars[name]) : "";
+    });
+  }
 
   function ean13Check(d12){
     let sum = 0;
@@ -41,35 +47,35 @@
 
     if (bcid === "ean13") {
       if (!(d.length === 12 || d.length === 13)) {
-        return { ok:false, digits:d, render:d, msg:`EAN-13 cere 12 sau 13 cifre (ai ${d.length})` };
+        return { ok:false, digits:d, render:d, msg:t("ean13Length", { count: d.length }, "EAN-13 cere 12 sau 13 cifre (ai {count})") };
       }
       const base = d.slice(0,12);
       const cd = ean13Check(base);
       const fixed13 = base + cd;
 
       if (d.length === 13 && d[12] !== cd) {
-        return { ok:true, digits:fixed13, render:base, msg:`EAN-13: checksum corectat (${d[12]}->${cd})` };
+        return { ok:true, digits:fixed13, render:base, msg:t("ean13Corrected", { old: d[12], next: cd }, "EAN-13: checksum corectat ({old}->{next})") };
       }
-      return { ok:true, digits:fixed13, render:base, msg:"EAN-13 OK" };
+      return { ok:true, digits:fixed13, render:base, msg:t("ean13Ok", {}, "EAN-13 OK") };
     }
 
     if (bcid === "ean8") {
       if (!(d.length === 7 || d.length === 8)) {
-        return { ok:false, digits:d, render:d, msg:`EAN-8 cere 7 sau 8 cifre (ai ${d.length})` };
+        return { ok:false, digits:d, render:d, msg:t("ean8Length", { count: d.length }, "EAN-8 cere 7 sau 8 cifre (ai {count})") };
       }
       const base = d.slice(0,7);
       const cd = ean8Check(base);
       const fixed8 = base + cd;
 
       if (d.length === 8 && d[7] !== cd) {
-        return { ok:true, digits:fixed8, render:base, msg:`EAN-8: checksum corectat (${d[7]}->${cd})` };
+        return { ok:true, digits:fixed8, render:base, msg:t("ean8Corrected", { old: d[7], next: cd }, "EAN-8: checksum corectat ({old}->{next})") };
       }
-      return { ok:true, digits:fixed8, render:base, msg:"EAN-8 OK" };
+      return { ok:true, digits:fixed8, render:base, msg:t("ean8Ok", {}, "EAN-8 OK") };
     }
 
     if (bcid === "sscc18") {
       if (!(d.length === 17 || d.length === 18)) {
-        return { ok:false, digits:d, render:d, msg:`SSCC-18 cere 17 sau 18 cifre (ai ${d.length})` };
+        return { ok:false, digits:d, render:d, msg:t("sscc18Length", { count: d.length }, "SSCC-18 cere 17 sau 18 cifre (ai {count})") };
       }
       const base = d.slice(0,17);
       const cd = sscc18Check(base);
@@ -77,9 +83,9 @@
       const render = `(00)${fixed18}`;
 
       if (d.length === 18 && d[17] !== cd) {
-        return { ok:true, digits:fixed18, render, msg:`SSCC-18: checksum corectat (${d[17]}->${cd})` };
+        return { ok:true, digits:fixed18, render, msg:t("sscc18Corrected", { old: d[17], next: cd }, "SSCC-18: checksum corectat ({old}->{next})") };
       }
-      return { ok:true, digits:fixed18, render, msg:"SSCC-18 OK" };
+      return { ok:true, digits:fixed18, render, msg:t("sscc18Ok", {}, "SSCC-18 OK") };
     }
 
     return { ok:true, digits:String(sku ?? "").trim(), render:String(sku ?? "").trim(), msg:"-" };

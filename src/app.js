@@ -17,6 +17,309 @@
       const state = { rows: [], license: { ok:false }, policy: License.demoPolicy() };
       const LICENSE_CONTACT_EMAIL = "aafastitsolutions@gmail.com";
       const DEFAULT_ACTIVATION_URL = "https://license.aafastitsolutions.com/api/activate";
+      const LANG_STORAGE_KEY = "barcodeLabelStudio.language";
+      const I18N = {
+        ro: {
+          licenseStatusTitle: "Status licenta",
+          licenseRestricted: "Aplicatia ruleaza cu restrictii.",
+          loadLicense: "Incarca licenta",
+          appSubtitle: "Etichete Zebra, import Excel, export si trimitere ZPL",
+          bitmapZplActive: "Bitmap ZPL activ",
+          language: "Limba",
+          languageRomanian: "Romana",
+          languageEnglish: "English",
+          copy: "Copiaza",
+          copied: "Copiat",
+          updateIdle: "Update: in asteptare.",
+          updateChecking: "Verific update...",
+          updateAvailable: "Update disponibil: {version}. Se descarca...",
+          updateNone: "Ai ultima versiune ({version}).",
+          updateDownloading: "Descarc update: {percent}%",
+          updateDownloaded: "Update {version} descarcat. Se poate instala acum sau la inchiderea aplicatiei.",
+          updateInstalling: "Instalez update...",
+          updateQueued: "Update {version} se instaleaza la inchiderea aplicatiei.",
+          updateDev: "Update automat se testeaza din aplicatia instalata, nu din npm start.",
+          install: "Instaleaza",
+          labelPanelTitle: "Eticheta",
+          labelPanelNote: "Configurare cod, continut si print.",
+          sectionFormat: "Format si cod",
+          preset: "Sablon",
+          width: "Latime",
+          height: "Inaltime",
+          barcodeType: "Tip cod",
+          printMode: "Mod print",
+          labelPrinter: "Imprimanta etichete",
+          a4Sheet: "Coala A4",
+          sectionContent: "Continut eticheta",
+          codeValue: "Valoare cod",
+          manualBottomText: "Text jos manual",
+          topText: "Text sus",
+          bottomText: "Text jos",
+          sectionPrintAlign: "Print si aliniere",
+          codeSize: "Marime cod (%)",
+          fontSize: "Text sus / jos (px)",
+          textCodeDistance: "Distanta text-cod (px)",
+          printer: "Imprimanta",
+          defaultPrinter: "Imprimanta implicita",
+          sectionImportActions: "Import si actiuni",
+          excelColumns: "Coloane Excel: <code>sku</code> sau <code>continut cod</code>, <code>text sus</code>, <code>text jos</code>.",
+          copiesPerExcelRow: "Copii / rand Excel",
+          printStatusLabel: "Print Bitmap ZPL pentru Label printer.",
+          add: "Adauga",
+          clear: "Goleste",
+          manualCopiesTitle: "Cate copii scoate pentru eticheta scrisa manual",
+          manualCopies: "Manual x",
+          advanced: "Avansat",
+          customPreviewCode: "Cod custom preview",
+          codeStatus: "Status cod",
+          barcodeHeight: "Inaltime cod",
+          zebraLicense: "Zebra / licenta",
+          downloadZpl: "Descarca labels.zpl",
+          printerIpPlaceholder: "IP imprimanta, ex: 192.168.1.50",
+          send: "Trimite",
+          appActivation: "Activare aplicatie",
+          licenseTitle: "Licenta Barcode Label Studio",
+          licenseNote: "Fara licenta activa, aplicatia ramane in demo cu limita de 5 etichete.",
+          licenseContact: "Contact licenta",
+          expires: "Expira",
+          daysLeft: "Zile ramase",
+          onlineActivation: "Activare online",
+          lemonKey: "Cheie Lemon Squeezy",
+          purchaseEmail: "Email cumparare",
+          activateOnline: "Activeaza online",
+          onlineActivationHint: "Introdu cheia primita dupa plata si activeaza pe acest calculator.",
+          or: "sau",
+          checkingLicense: "Se verifica licenta...",
+          licenseContactLabel: "Contact licenta:",
+          labelList: "Lista etichete",
+          code: "Cod",
+          delete: "Sterge",
+          contactMailSubject: "Licenta Barcode Label Studio",
+          contactMailGreeting: "Buna ziua,",
+          contactMailNeed: "Am nevoie de licenta pentru Barcode Label Studio.",
+          contactMailMachine: "Machine ID: {machineId}",
+          contactMailVersion: "Versiune aplicatie: {version}",
+          contactMailThanks: "Multumesc.",
+          enterLicenseKey: "Introdu cheia Lemon Squeezy primita dupa plata.",
+          activatingOnline: "Activez online...",
+          onlineActivationFailed: "Activarea online a esuat.",
+          localLicenseInvalid: "Licenta primita nu a putut fi validata local.",
+          licenseActivated: "Licenta activata: {plan} pana la {expires}.",
+          licenseExpired: "Licenta expirata",
+          licenseExpiringSoon: "Licenta expira curand",
+          demoMode: "Mod demo",
+          demoBanner: "Fara licenta activa poti genera si printa maxim {max} etichete. Pentru licenta: {email}.",
+          expiredDemoBanner: "Aplicatia a trecut in demo: maxim {max} etichete. Contact licenta: {email}.",
+          expiringBanner: "Mai ai {days} zile pana la expirare ({expires}). Contact: {email}.",
+          active: "ACTIVA",
+          expired: "EXPIRAT",
+          adminModeStatus: "Mod: ADMIN LOCAL - toate functiile active",
+          activeStatusDays: "Licenta activa ({plan}) - expira in {days} zile ({expires})",
+          activeStatusUntil: "Licenta activa ({plan}) - valabila pana la {expires}",
+          activeStatus: "Licenta activa ({plan})",
+          demoStatus: "Mod DEMO ({reason}) - maxim {max} etichete. Contact: {email}",
+          graceDays: "GRATIE ({days} zile)",
+          noPrinters: "Nu am putut citi lista de imprimante.",
+          defaultPrinterSuffix: "implicit",
+          printBitmapFor: "Print Bitmap ZPL: {printer}.",
+          printerFallback: "imprimanta implicita",
+          codeStatusText: "Cod: {command} ({type})",
+          a4PageInfo: "A4 {page}/{pages} - {count} etichete",
+          printNotAllowed: "Licenta nu permite print.",
+          sendingBitmapZpl: "Trimit Bitmap ZPL: {count} etichete...",
+          bitmapZplError: "Eroare Bitmap ZPL: {message}",
+          bitmapZplFailed: "Print Bitmap ZPL esuat: {message}",
+          unknownError: "eroare necunoscuta",
+          printFailed: "Print esuat: {message}",
+          printElectronRequired: "Print curat necesita aplicatia Electron pornita cu npm start. Nu deschide index.html direct in browser.",
+          demoPrintAction: "printez",
+          demoLimit: "DEMO: fara licenta activa, {action} doar primele {used}/{total} etichete (limita {max}).",
+          demoListLimit: "DEMO: maxim {max} etichete in lista.",
+          demoImportLimit: "DEMO: am importat doar {count} randuri (limita {max}).",
+          exportNeedsLicense: "Export ZPL este disponibil doar cu licenta activa.",
+          exportReadonly: "READ-ONLY: Export ZPL este blocat (necesita reinnoire).",
+          sendNeedsLicense: "Trimiterea ZPL este disponibila doar cu licenta activa.",
+          sendReadonly: "READ-ONLY: Trimiterea ZPL este blocata (necesita reinnoire).",
+          enterPrinterIp: "Scrie IP-ul imprimantei (ex: 192.168.1.50)",
+          sending: "Trimit...",
+          invalidLicense: "Licenta invalida: {reason}",
+          machineIdCopied: "Machine ID copiat in clipboard.",
+          copyManualFallback: "Nu pot copia automat. Selecteaza manual Machine ID.",
+          ean13Length: "EAN-13 cere 12 sau 13 cifre (ai {count})",
+          ean13Corrected: "EAN-13: checksum corectat ({old}->{next})",
+          ean13Ok: "EAN-13 OK",
+          ean8Length: "EAN-8 cere 7 sau 8 cifre (ai {count})",
+          ean8Corrected: "EAN-8: checksum corectat ({old}->{next})",
+          ean8Ok: "EAN-8 OK",
+          sscc18Length: "SSCC-18 cere 17 sau 18 cifre (ai {count})",
+          sscc18Corrected: "SSCC-18: checksum corectat ({old}->{next})",
+          sscc18Ok: "SSCC-18 OK"
+        },
+        en: {
+          licenseStatusTitle: "License status",
+          licenseRestricted: "The app is running with restrictions.",
+          loadLicense: "Load license",
+          appSubtitle: "Zebra labels, Excel import, ZPL export and sending",
+          bitmapZplActive: "Bitmap ZPL active",
+          language: "Language",
+          languageRomanian: "Romanian",
+          languageEnglish: "English",
+          copy: "Copy",
+          copied: "Copied",
+          updateIdle: "Update: waiting.",
+          updateChecking: "Checking for updates...",
+          updateAvailable: "Update available: {version}. Downloading...",
+          updateNone: "You have the latest version ({version}).",
+          updateDownloading: "Downloading update: {percent}%",
+          updateDownloaded: "Update {version} downloaded. You can install now or when the app closes.",
+          updateInstalling: "Installing update...",
+          updateQueued: "Update {version} will install when the app closes.",
+          updateDev: "Automatic updates can be tested only in the installed app, not from npm start.",
+          install: "Install",
+          labelPanelTitle: "Label",
+          labelPanelNote: "Configure code, content and print.",
+          sectionFormat: "Format and code",
+          preset: "Template",
+          width: "Width",
+          height: "Height",
+          barcodeType: "Code type",
+          printMode: "Print mode",
+          labelPrinter: "Label printer",
+          a4Sheet: "A4 sheet",
+          sectionContent: "Label content",
+          codeValue: "Code value",
+          manualBottomText: "Manual bottom text",
+          topText: "Top text",
+          bottomText: "Bottom text",
+          sectionPrintAlign: "Print and alignment",
+          codeSize: "Code size (%)",
+          fontSize: "Top / bottom text (px)",
+          textCodeDistance: "Text-code distance (px)",
+          printer: "Printer",
+          defaultPrinter: "Default printer",
+          sectionImportActions: "Import and actions",
+          excelColumns: "Excel columns: <code>sku</code> or <code>code content</code>, <code>top text</code>, <code>bottom text</code>.",
+          copiesPerExcelRow: "Copies / Excel row",
+          printStatusLabel: "Bitmap ZPL print for label printer.",
+          add: "Add",
+          clear: "Clear",
+          manualCopiesTitle: "How many copies to print for the manual label",
+          manualCopies: "Manual x",
+          advanced: "Advanced",
+          customPreviewCode: "Custom preview code",
+          codeStatus: "Code status",
+          barcodeHeight: "Barcode height",
+          zebraLicense: "Zebra / license",
+          downloadZpl: "Download labels.zpl",
+          printerIpPlaceholder: "Printer IP, e.g. 192.168.1.50",
+          send: "Send",
+          appActivation: "App activation",
+          licenseTitle: "Barcode Label Studio license",
+          licenseNote: "Without an active license, the app remains in demo mode with a 5-label limit.",
+          licenseContact: "License contact",
+          expires: "Expires",
+          daysLeft: "Days left",
+          onlineActivation: "Online activation",
+          lemonKey: "Lemon Squeezy key",
+          purchaseEmail: "Purchase email",
+          activateOnline: "Activate online",
+          onlineActivationHint: "Enter the key received after payment and activate it on this computer.",
+          or: "or",
+          checkingLicense: "Checking license...",
+          licenseContactLabel: "License contact:",
+          labelList: "Label list",
+          code: "Code",
+          delete: "Delete",
+          contactMailSubject: "Barcode Label Studio license",
+          contactMailGreeting: "Hello,",
+          contactMailNeed: "I need a license for Barcode Label Studio.",
+          contactMailMachine: "Machine ID: {machineId}",
+          contactMailVersion: "App version: {version}",
+          contactMailThanks: "Thank you.",
+          enterLicenseKey: "Enter the Lemon Squeezy key received after payment.",
+          activatingOnline: "Activating online...",
+          onlineActivationFailed: "Online activation failed.",
+          localLicenseInvalid: "The received license could not be validated locally.",
+          licenseActivated: "License activated: {plan} until {expires}.",
+          licenseExpired: "License expired",
+          licenseExpiringSoon: "License expires soon",
+          demoMode: "Demo mode",
+          demoBanner: "Without an active license, you can generate and print up to {max} labels. License: {email}.",
+          expiredDemoBanner: "The app switched to demo: maximum {max} labels. License contact: {email}.",
+          expiringBanner: "{days} days left until expiration ({expires}). Contact: {email}.",
+          active: "ACTIVE",
+          expired: "EXPIRED",
+          adminModeStatus: "Mode: LOCAL ADMIN - all features active",
+          activeStatusDays: "Active license ({plan}) - expires in {days} days ({expires})",
+          activeStatusUntil: "Active license ({plan}) - valid until {expires}",
+          activeStatus: "Active license ({plan})",
+          demoStatus: "DEMO mode ({reason}) - maximum {max} labels. Contact: {email}",
+          graceDays: "GRACE ({days} days)",
+          noPrinters: "Could not read the printer list.",
+          defaultPrinterSuffix: "default",
+          printBitmapFor: "Bitmap ZPL print: {printer}.",
+          printerFallback: "default printer",
+          codeStatusText: "Code: {command} ({type})",
+          a4PageInfo: "A4 {page}/{pages} - {count} labels",
+          printNotAllowed: "The license does not allow printing.",
+          sendingBitmapZpl: "Sending Bitmap ZPL: {count} labels...",
+          bitmapZplError: "Bitmap ZPL error: {message}",
+          bitmapZplFailed: "Bitmap ZPL print failed: {message}",
+          unknownError: "unknown error",
+          printFailed: "Print failed: {message}",
+          printElectronRequired: "Clean printing requires the Electron app started with npm start. Do not open index.html directly in the browser.",
+          demoPrintAction: "print",
+          demoLimit: "DEMO: without an active license, {action} only the first {used}/{total} labels (limit {max}).",
+          demoListLimit: "DEMO: maximum {max} labels in the list.",
+          demoImportLimit: "DEMO: imported only {count} rows (limit {max}).",
+          exportNeedsLicense: "ZPL export is available only with an active license.",
+          exportReadonly: "READ-ONLY: ZPL export is blocked (renewal required).",
+          sendNeedsLicense: "Sending ZPL is available only with an active license.",
+          sendReadonly: "READ-ONLY: Sending ZPL is blocked (renewal required).",
+          enterPrinterIp: "Enter the printer IP (e.g. 192.168.1.50)",
+          sending: "Sending...",
+          invalidLicense: "Invalid license: {reason}",
+          machineIdCopied: "Machine ID copied to clipboard.",
+          copyManualFallback: "I cannot copy automatically. Select the Machine ID manually.",
+          ean13Length: "EAN-13 requires 12 or 13 digits (you have {count})",
+          ean13Corrected: "EAN-13: checksum corrected ({old}->{next})",
+          ean13Ok: "EAN-13 OK",
+          ean8Length: "EAN-8 requires 7 or 8 digits (you have {count})",
+          ean8Corrected: "EAN-8: checksum corrected ({old}->{next})",
+          ean8Ok: "EAN-8 OK",
+          sscc18Length: "SSCC-18 requires 17 or 18 digits (you have {count})",
+          sscc18Corrected: "SSCC-18: checksum corrected ({old}->{next})",
+          sscc18Ok: "SSCC-18 OK"
+        }
+      };
+      let currentLang = localStorage.getItem(LANG_STORAGE_KEY) === "en" ? "en" : "ro";
+
+      function tr(key, vars = {}){
+        const pack = I18N[currentLang] || I18N.ro;
+        const fallback = I18N.ro[key] || key;
+        return String(pack[key] || fallback).replace(/\{([a-zA-Z0-9_]+)\}/g, (_m, name) => {
+          return vars[name] === undefined || vars[name] === null ? "" : String(vars[name]);
+        });
+      }
+
+      function applyLanguage(){
+        document.documentElement.lang = currentLang;
+        window.BLS_TR = tr;
+        document.querySelectorAll("[data-i18n]").forEach((node) => {
+          node.textContent = tr(node.getAttribute("data-i18n"));
+        });
+        document.querySelectorAll("[data-i18n-html]").forEach((node) => {
+          node.innerHTML = tr(node.getAttribute("data-i18n-html"));
+        });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
+          node.setAttribute("placeholder", tr(node.getAttribute("data-i18n-placeholder")));
+        });
+        document.querySelectorAll("[data-i18n-title]").forEach((node) => {
+          node.setAttribute("title", tr(node.getAttribute("data-i18n-title")));
+        });
+        const languageSelect = document.getElementById("languageSelect");
+        if (languageSelect) languageSelect.value = currentLang;
+      }
 
       function activationUrl(){
         return localStorage.getItem("activationApiUrl") || DEFAULT_ACTIVATION_URL;
@@ -25,15 +328,15 @@
       function licenseContactUrl(){
         const machineId = (document.getElementById("machineIdValue")?.textContent || "").trim();
         const version = (document.getElementById("appVersion")?.textContent || "").trim();
-        const subject = "Licenta Barcode Label Studio";
+        const subject = tr("contactMailSubject");
         const body = [
-          "Buna ziua,",
+          tr("contactMailGreeting"),
           "",
-          "Am nevoie de licenta pentru Barcode Label Studio.",
-          machineId && machineId !== "-" ? `Machine ID: ${machineId}` : "Machine ID: ",
-          version ? `Versiune aplicatie: ${version}` : "",
+          tr("contactMailNeed"),
+          machineId && machineId !== "-" ? tr("contactMailMachine", { machineId }) : tr("contactMailMachine", { machineId: "" }),
+          version ? tr("contactMailVersion", { version }) : "",
           "",
-          "Multumesc."
+          tr("contactMailThanks")
         ].filter(Boolean).join("\n");
         return `mailto:${LICENSE_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       }
@@ -62,13 +365,13 @@
         const email = (emailInput && emailInput.value ? emailInput.value : "").trim();
 
         if (!licenseKey) {
-          setOnlineActivationStatus("Introdu cheia Lemon Squeezy primita dupa plata.", true);
+          setOnlineActivationStatus(tr("enterLicenseKey"), true);
           return;
         }
 
         try {
           if (btn) btn.disabled = true;
-          setOnlineActivationStatus("Activez online...");
+          setOnlineActivationStatus(tr("activatingOnline"));
           const machineId = window.AppBridge && window.AppBridge.getMachineId
             ? await window.AppBridge.getMachineId()
             : (document.getElementById("machineIdValue")?.textContent || "").trim();
@@ -88,13 +391,13 @@
           });
           const data = await response.json().catch(() => ({}));
           if (!response.ok || !data.ok || !data.license) {
-            throw new Error(data.message || "Activarea online a esuat.");
+            throw new Error(data.message || tr("onlineActivationFailed"));
           }
 
           state.license = await License.importLicenseText(JSON.stringify(data.license));
           state.policy = License.policyFromLicense ? License.policyFromLicense(state.license) : License.demoPolicy();
           if (!state.license.ok) {
-            throw new Error("Licenta primita nu a putut fi validata local.");
+            throw new Error(tr("localLicenseInvalid"));
           }
 
           applyPolicyToUI();
@@ -102,9 +405,9 @@
           refreshTable();
           doPreview();
           if (keyInput) keyInput.value = "";
-          setOnlineActivationStatus(`Licenta activata: ${data.plan || "PRO"} pana la ${data.expires || "-"}.`);
+          setOnlineActivationStatus(tr("licenseActivated", { plan: data.plan || "PRO", expires: data.expires || "-" }));
         } catch (err) {
-          setOnlineActivationStatus(err && err.message ? err.message : "Activarea online a esuat.", true);
+          setOnlineActivationStatus(err && err.message ? err.message : tr("onlineActivationFailed"), true);
         } finally {
           if (btn) btn.disabled = false;
         }
@@ -112,7 +415,7 @@
 
       function setText(id, txt){
         const n = document.getElementById(id);
-        if (n) n.textContent = (txt === undefined || txt === null || txt === "") ? "—" : String(txt);
+        if (n) n.textContent = (txt === undefined || txt === null || txt === "") ? "-" : String(txt);
       }
       function showBanner(title, body, showRenew){
         const b = document.getElementById("licenseBanner");
@@ -120,8 +423,8 @@
         const t = document.getElementById("bannerTitle");
         const bd = document.getElementById("bannerBody");
         const btn = document.getElementById("btnRenewLicense");
-        if (t) t.textContent = title || "—";
-        if (bd) bd.textContent = body || "—";
+        if (t) t.textContent = title || "-";
+        if (bd) bd.textContent = body || "-";
         if (btn) btn.style.display = showRenew ? "inline-flex" : "none";
         b.classList.remove("hidden");
       }
@@ -185,16 +488,16 @@
           setText("licId", p.licenseId || "");
           setText("licExpires", exp);
           if (typeof state.license.daysLeft === "number"){
-            setText("licDaysLeft", state.license.inGrace ? `GRATIE (${Math.abs(state.license.daysLeft)} zile)` : state.license.daysLeft);
+            setText("licDaysLeft", state.license.inGrace ? tr("graceDays", { days: Math.abs(state.license.daysLeft) }) : state.license.daysLeft);
           } else {
             setText("licDaysLeft", "-");
           }
-          setText("licStatus", state.license.inGrace ? "EXPIRAT" : "ACTIVA");
+          setText("licStatus", state.license.inGrace ? tr("expired") : tr("active"));
 
           if (state.license.inGrace){
-            showBanner("Licenta expirata", `Aplicatia a trecut in demo: maxim ${max} etichete. Contact licenta: ${LICENSE_CONTACT_EMAIL}.`, true);
+            showBanner(tr("licenseExpired"), tr("expiredDemoBanner", { max, email: LICENSE_CONTACT_EMAIL }), true);
           } else if (typeof state.license.daysLeft === "number" && state.license.daysLeft <= 14){
-            showBanner("Licenta expira curand", `Mai ai ${state.license.daysLeft} zile pana la expirare (${exp}). Contact: ${LICENSE_CONTACT_EMAIL}.`, true);
+            showBanner(tr("licenseExpiringSoon"), tr("expiringBanner", { days: state.license.daysLeft, expires: exp, email: LICENSE_CONTACT_EMAIL }), true);
           } else {
             hideBanner();
           }
@@ -202,8 +505,8 @@
           const reason = (state.license && state.license.reason) ? state.license.reason : "no_license";
           setText("licPlan", "DEMO"); setText("licCustomer", "-"); setText("licId", "-");
           setText("licExpires", "-"); setText("licDaysLeft", "-");
-          setText("licStatus", reason === "expired" ? "EXPIRAT" : "DEMO");
-          showBanner("Mod demo", `Fara licenta activa poti genera si printa maxim ${max} etichete. Pentru licenta: ${LICENSE_CONTACT_EMAIL}.`, true);
+          setText("licStatus", reason === "expired" ? tr("expired") : "DEMO");
+          showBanner(tr("demoMode"), tr("demoBanner", { max, email: LICENSE_CONTACT_EMAIL }), true);
         }
       }
 
@@ -273,11 +576,11 @@
 
       function updateBcidStatus(){
         const bcid = getBcid();
-        el("bcidStatus").textContent = `Cod: ${zebraCommandForBcid(bcid)} (${bcid})`;
+        el("bcidStatus").textContent = tr("codeStatusText", { command: zebraCommandForBcid(bcid), type: bcid });
         const sku = el("manualSku").value.trim();
         const v = UI.validateEan(bcid, sku);
         const pill = document.getElementById("eanLiveStatus");
-        if (pill) pill.textContent = (bcid==="ean8" || bcid==="ean13") ? v.msg : "—";
+        if (pill) pill.textContent = (bcid==="ean8" || bcid==="ean13") ? v.msg : "-";
         if (pill) pill.textContent = v.msg && v.msg !== "-" ? v.msg : "-";
       }
 
@@ -311,7 +614,7 @@
 
       function demoLimitMessage(action, total, used){
         const max = policyMaxLabels();
-        return `DEMO: fara licenta activa, ${action} doar primele ${used}/${total} etichete (limita ${max}).`;
+        return tr("demoLimit", { action, total, used, max });
       }
 
       function enforceListLimit(){
@@ -372,18 +675,18 @@
           const daysLeft = (typeof state.license.daysLeft === "number") ? state.license.daysLeft : null;
 
           if (state.license.isAdmin) {
-            el("licenseStatus").textContent = "Mod: ADMIN LOCAL - toate functiile active";
+            el("licenseStatus").textContent = tr("adminModeStatus");
           } else if (daysLeft !== null && daysLeft <= 14) {
-            el("licenseStatus").textContent = `Licenta activa (${plan}) - expira in ${daysLeft} zile (${exp})`;
+            el("licenseStatus").textContent = tr("activeStatusDays", { plan, days: daysLeft, expires: exp });
           } else if (exp) {
-            el("licenseStatus").textContent = `Licenta activa (${plan}) - valabila pana la ${exp}`;
+            el("licenseStatus").textContent = tr("activeStatusUntil", { plan, expires: exp });
           } else {
-            el("licenseStatus").textContent = `Licenta activa (${plan})`;
+            el("licenseStatus").textContent = tr("activeStatus", { plan });
           }
         } else {
           const reason = state.license && state.license.reason ? state.license.reason : "no_license";
-          const label = state.license && state.license.inGrace ? "licenta expirata" : reason;
-          el("licenseStatus").textContent = `Mod DEMO (${label}) - maxim ${max} etichete. Contact: ${LICENSE_CONTACT_EMAIL}`;
+          const label = state.license && state.license.inGrace ? tr("licenseExpired").toLowerCase() : reason;
+          el("licenseStatus").textContent = tr("demoStatus", { reason: label, max, email: LICENSE_CONTACT_EMAIL });
         }
 
         el("btnExportZpl").disabled = !exportAllowed;
@@ -603,7 +906,7 @@
 
         const res = await window.AppBridge.listPrinters();
         if (!res || !res.ok) {
-          if (status) status.textContent = "Nu am putut citi lista de imprimante.";
+          if (status) status.textContent = tr("noPrinters");
           return;
         }
 
@@ -612,7 +915,7 @@
         printers.forEach((p) => {
           const option = document.createElement("option");
           option.value = p.name;
-          option.textContent = p.isDefault ? `${p.name} (implicit)` : p.name;
+          option.textContent = p.isDefault ? `${p.name} (${tr("defaultPrinterSuffix")})` : p.name;
           if (p.isDefault || p.name === res.defaultName) option.selected = true;
           select.appendChild(option);
         });
@@ -620,13 +923,13 @@
         if (!printers.length) {
           const option = document.createElement("option");
           option.value = "";
-          option.textContent = "Imprimanta implicita";
+          option.textContent = tr("defaultPrinter");
           select.appendChild(option);
         }
 
         if (status) {
           const active = select.options[select.selectedIndex];
-          status.textContent = `Print Bitmap ZPL: ${active ? active.textContent : "imprimanta implicita"}.`;
+          status.textContent = tr("printBitmapFor", { printer: active ? active.textContent : tr("printerFallback") });
         }
       }
 
@@ -634,12 +937,14 @@
         const tb = el("tbl").querySelector("tbody");
         tb.innerHTML = "";
         state.rows.forEach((r,i)=>{
-          const tr = document.createElement("tr");
+          const rowEl = document.createElement("tr");
           const topText = String(r.textSus ?? "").trim();
           const bottomText = String(r.textJos ?? r.descriere ?? "").trim();
-          tr.innerHTML = `<td>${i+1}</td><td>${UI.escapeHtml(r.sku ?? "")}</td><td>${UI.escapeHtml(topText)}</td><td>${UI.escapeHtml(bottomText)}</td>
-            <td><button data-i="${i}" class="ghost" type="button">Șterge</button></td>`;
-          tb.appendChild(tr);
+          rowEl.innerHTML = `<td>${i+1}</td><td>${UI.escapeHtml(r.sku ?? "")}</td><td>${UI.escapeHtml(topText)}</td><td>${UI.escapeHtml(bottomText)}</td>
+            <td><button data-i="${i}" class="ghost" type="button"></button></td>`;
+          const deleteButton = rowEl.querySelector("button[data-i]");
+          if (deleteButton) deleteButton.textContent = tr("delete");
+          tb.appendChild(rowEl);
         });
         tb.querySelectorAll("button[data-i]").forEach(btn=>{
           btn.addEventListener("click", ()=>{
@@ -651,14 +956,80 @@
         });
       }
 
+      function getA4Layout(wmm, hmm){
+        const pageW = 210;
+        const pageH = 297;
+        const pad = 8;
+        const gap = 2;
+        const cols = Math.max(1, Math.floor(((pageW - pad * 2) + gap) / (wmm + gap)));
+        const rows = Math.max(1, Math.floor(((pageH - pad * 2) + gap) / (hmm + gap)));
+        return { pageW, pageH, pad, gap, cols, rows, perPage: Math.max(1, cols * rows) };
+      }
+
+      function renderA4Preview(preview, rows, dpi, wmm, hmm){
+        const layout = getA4Layout(wmm, hmm);
+        const availableW = Math.max(280, Math.min(560, (preview.clientWidth || 560) - 40));
+        const scale = availableW / layout.pageW;
+        const pageWpx = Math.round(layout.pageW * scale);
+        const pageHpx = Math.round(layout.pageH * scale);
+        const padPx = Math.round(layout.pad * scale);
+        const gapPx = Math.max(1, Math.round(layout.gap * scale));
+        const labelWpx = Math.max(1, Math.round(wmm * scale));
+        const labelHpx = Math.max(1, Math.round(hmm * scale));
+        const pageCount = Math.max(1, Math.ceil(rows.length / layout.perPage));
+
+        for (let pageIndex = 0; pageIndex < pageCount; pageIndex++) {
+          const pageRows = rows.slice(pageIndex * layout.perPage, (pageIndex + 1) * layout.perPage);
+          const wrap = document.createElement("div");
+          wrap.className = "a4-preview-page-wrap";
+
+          const label = document.createElement("div");
+          label.className = "a4-preview-page-label";
+          label.textContent = tr("a4PageInfo", { page: pageIndex + 1, pages: pageCount, count: pageRows.length });
+          wrap.appendChild(label);
+
+          const page = document.createElement("div");
+          page.className = "a4-preview-sheet";
+          page.style.width = `${pageWpx}px`;
+          page.style.height = `${pageHpx}px`;
+          page.style.padding = `${padPx}px`;
+
+          const grid = document.createElement("div");
+          grid.className = "a4-preview-grid";
+          grid.style.gridTemplateColumns = `repeat(${layout.cols}, ${labelWpx}px)`;
+          grid.style.gridAutoRows = `${labelHpx}px`;
+          grid.style.gap = `${gapPx}px`;
+
+          pageRows.forEach((r) => {
+            const canvas = renderLabelToCanvas(r);
+            canvas.style.width = `${labelWpx}px`;
+            canvas.style.height = `${labelHpx}px`;
+            canvas.style.imageRendering = "pixelated";
+            grid.appendChild(canvas);
+          });
+
+          page.appendChild(grid);
+          wrap.appendChild(page);
+          preview.appendChild(wrap);
+        }
+      }
+
       function doPreview(){
         const preview = el("preview");
         preview.innerHTML = "";
-        const rows = rowsForWork(1);
+        const mode = el("printMode").value;
         const dpi = parseInt(el("dpi").value,10);
         const wmm = parseFloat(el("wmm").value);
-        const labelWpx = mmToPx(wmm, dpi);
+        const hmm = parseFloat(el("hmm").value);
+        const rows = rowsForWork(mode === "a4" ? undefined : 1);
+        preview.classList.toggle("a4-preview-mode", mode === "a4");
 
+        if (mode === "a4") {
+          renderA4Preview(preview, rows, dpi, wmm, hmm);
+          return;
+        }
+
+        const labelWpx = mmToPx(wmm, dpi);
         rows.forEach(r=>{
           const card = document.createElement("div");
           card.className = "card";
@@ -707,14 +1078,14 @@
       function doPrint(){
         const root = el("printRoot");
         if (state.policy && state.policy.allowPrint === false) {
-          alert("Licenta nu permite print.");
+          alert(tr("printNotAllowed"));
           return;
         }
         const totalRows = repeatRows(sourceRows()).length;
         const rows = rowsForWork();
         if (!hasFullLicense() && totalRows > rows.length) {
           const status = document.getElementById("printStatus");
-          const msg = demoLimitMessage("printez", totalRows, rows.length);
+          const msg = demoLimitMessage(tr("demoPrintAction"), totalRows, rows.length);
           if (status) status.textContent = msg;
           alert(msg);
         }
@@ -730,10 +1101,11 @@
           const status = document.getElementById("printStatus");
           const printerName = (document.getElementById("printerName")?.value || "").trim();
           const zpl = makeBitmapZplBulk(rows);
-          if (status) status.textContent = `Trimit Bitmap ZPL: ${rows.length} etichete...`;
+          if (status) status.textContent = tr("sendingBitmapZpl", { count: rows.length });
           window.AppBridge.rawPrintZpl({ printerName, zpl }).then((res) => {
-            if (status) status.textContent = res && res.ok ? res.message : `Eroare Bitmap ZPL: ${res && res.message ? res.message : "necunoscuta"}`;
-            if (!res || !res.ok) alert("Print Bitmap ZPL esuat: " + (res && res.message ? res.message : "eroare necunoscuta"));
+            const message = res && res.message ? res.message : tr("unknownError");
+            if (status) status.textContent = res && res.ok ? message : tr("bitmapZplError", { message });
+            if (!res || !res.ok) alert(tr("bitmapZplFailed", { message }));
           });
           return;
         }
@@ -785,11 +1157,11 @@
               heightMm: hmm,
               labels: labelImages
             });
-            if (!res || !res.ok) alert("Print esuat: " + (res && res.message ? res.message : "eroare necunoscuta"));
+            if (!res || !res.ok) alert(tr("printFailed", { message: res && res.message ? res.message : tr("unknownError") }));
             return;
           }
 
-          alert("Print curat necesita aplicatia Electron pornita cu npm start. Nu deschide index.html direct in browser.");
+          alert(tr("printElectronRequired"));
         }, 80);
       }
 
@@ -814,9 +1186,9 @@
 
         const rows = json.map(obj=>{
           const keys = Object.keys(obj);
-          const kSku = findKey(keys, ["sku", "continutcod", "valoarecod", "cod", "barcode", "codbare"]);
-          const kTop = findKey(keys, ["textsus", "texts", "sus"]);
-          const kBottom = findKey(keys, ["textjos", "testjos", "textj", "jos", "descriere", "descr"]);
+          const kSku = findKey(keys, ["sku", "continutcod", "valoarecod", "cod", "barcode", "codbare", "code", "codecontent", "codevalue", "barcodevalue"]);
+          const kTop = findKey(keys, ["textsus", "texts", "sus", "toptext", "texttop"]);
+          const kBottom = findKey(keys, ["textjos", "testjos", "textj", "jos", "descriere", "descr", "bottomtext", "textbottom", "description", "desc"]);
           const sku = cell(obj, kSku);
           const textSus = cell(obj, kTop);
           const textJos = cell(obj, kBottom);
@@ -959,7 +1331,7 @@
         const descriere = el("manualDesc").value.trim();
         if (!sku) return;
         if (!hasFullLicense() && state.rows.length >= policyMaxLabels()){
-          alert(`DEMO: maxim ${state.policy.maxLabels} etichete în listă.`);
+          alert(tr("demoListLimit", { max: state.policy.maxLabels }));
           return;
         }
         state.rows.push({ sku, descriere, source: "manual" });
@@ -978,14 +1350,14 @@
         refreshTable();
         doPreview();
         if (!hasFullLicense() && rows.length > toAdd.length){
-          alert(`DEMO: am importat doar ${toAdd.length} rânduri (limită ${state.policy.maxLabels}).`);
+          alert(tr("demoImportLimit", { count: toAdd.length, max: state.policy.maxLabels }));
         }
         el("file").value = "";
       });
 
       el("btnExportZpl").addEventListener("click", ()=>{
-        if (state.policy.allowExportZpl === false) return alert("Export ZPL este disponibil doar cu licenta activa.");
-        if (!(state.license.ok && !state.license.inGrace) && !state.policy.allowExportZpl) return alert("READ-ONLY: Export ZPL este blocat (necesită reînnoire).");
+        if (state.policy.allowExportZpl === false) return alert(tr("exportNeedsLicense"));
+        if (!(state.license.ok && !state.license.inGrace) && !state.policy.allowExportZpl) return alert(tr("exportReadonly"));
         const rows = rowsForWork();
         const zpl = makeZplBulk(rows);
         const blob = new Blob([zpl], { type:"text/plain" });
@@ -997,13 +1369,13 @@
       });
 
       el("btnSendZpl").addEventListener("click", async ()=>{
-        if (state.policy.allowSendZpl === false) return alert("Trimiterea ZPL este disponibila doar cu licenta activa.");
-        if (!(state.license.ok && !state.license.inGrace) && !state.policy.allowSendZpl) return alert("READ-ONLY: Trimiterea ZPL este blocată (necesită reînnoire).");
+        if (state.policy.allowSendZpl === false) return alert(tr("sendNeedsLicense"));
+        if (!(state.license.ok && !state.license.inGrace) && !state.policy.allowSendZpl) return alert(tr("sendReadonly"));
         const ip = el("zebraIp").value.trim();
-        if (!ip) return alert("Scrie IP-ul imprimantei (ex: 192.168.1.50)");
+        if (!ip) return alert(tr("enterPrinterIp"));
         const rows = rowsForWork();
         const zpl = makeZplBulk(rows);
-        el("zplSendStatus").textContent = "Trimit...";
+        el("zplSendStatus").textContent = tr("sending");
         const res = await window.AppBridge.sendZplTcp9100({ host: ip, port: 9100, zpl });
         el("zplSendStatus").textContent = res.ok ? ("OK: " + res.message) : ("FAIL: " + res.message);
       });
@@ -1013,7 +1385,7 @@
         if (!f) return;
         state.license = await License.importLicenseFile(f);
         state.policy = License.policyFromLicense ? License.policyFromLicense(state.license) : (hasFullLicense() ? { maxLabels: 999999, allowExportZpl:true, allowSendZpl:true, allowPrint:true, watermark:"" } : License.demoPolicy());
-        if (!state.license.ok) alert("Licență invalidă: " + (state.license.reason || "unknown"));
+        if (!state.license.ok) alert(tr("invalidLicense", { reason: state.license.reason || "unknown" }));
         const trimmed = enforceListLimit();
         applyPolicyToUI();
         updateLicenseUI();
@@ -1022,20 +1394,45 @@
         ev.target.value = "";
       });
 
-      ["bcid","bcidCustom","manualSku","manualQty","excelQty","topTpl","bottomTpl"].forEach(id=>{
+      const languageSelect = document.getElementById("languageSelect");
+      if (languageSelect) {
+        languageSelect.addEventListener("change", () => {
+          currentLang = languageSelect.value === "en" ? "en" : "ro";
+          localStorage.setItem(LANG_STORAGE_KEY, currentLang);
+          applyLanguage();
+          updateBcidStatus();
+          applyPolicyToUI();
+          updateLicenseUI();
+          refreshTable();
+          doPreview();
+          setUpdateUi(state.updateStatus || null);
+          loadPrinterList();
+        });
+      }
+
+      ["bcid","bcidCustom","manualSku","manualDesc","manualQty","excelQty","topTpl","bottomTpl","labelPreset","dpi","wmm","hmm","codeScalePct","fontPx","textGapPx","padPx","forceBarcodeHPx","bcOffXmm","bcOffYmm","topOffXmm","topOffYmm","botOffXmm","botOffYmm","printMode"].forEach(id=>{
         const n = document.getElementById(id);
-        if (n) n.addEventListener("input", ()=>{ updateBcidStatus(); doPreview(); });
+        if (n) {
+          const refresh = ()=>{
+            if (id === "labelPreset") applyPreset();
+            updateBcidStatus();
+            doPreview();
+          };
+          n.addEventListener("input", refresh);
+          n.addEventListener("change", refresh);
+        }
       });
       const printerSelect = document.getElementById("printerName");
       if (printerSelect) {
         printerSelect.addEventListener("change", () => {
           const status = document.getElementById("printStatus");
           const active = printerSelect.options[printerSelect.selectedIndex];
-          if (status) status.textContent = `Print Bitmap ZPL: ${active ? active.textContent : "imprimanta implicita"}.`;
+          if (status) status.textContent = tr("printBitmapFor", { printer: active ? active.textContent : tr("printerFallback") });
         });
       }
 
       // Init
+      applyLanguage();
       applyPreset();
       updateBcidStatus();
       refreshTable();
@@ -1043,12 +1440,27 @@
       initLicense();
       loadPrinterList();
 
+      function updateStatusMessage(status){
+        if (!status) return tr("updateIdle");
+        const version = status.availableVersion || status.version || "";
+        const percent = Math.max(0, Math.min(100, Math.round(status.percent || 0)));
+        if (status.state === "checking") return tr("updateChecking");
+        if (status.state === "available") return tr("updateAvailable", { version });
+        if (status.state === "none") return tr("updateNone", { version });
+        if (status.state === "downloading") return tr("updateDownloading", { percent });
+        if (status.state === "downloaded") return tr("updateDownloaded", { version });
+        if (status.state === "installing") return tr("updateInstalling");
+        if (status.state === "queued") return tr("updateQueued", { version });
+        if (status.state === "dev") return tr("updateDev");
+        return status.message || tr("updateIdle");
+      }
+
       function setUpdateUi(status){
+        state.updateStatus = status || null;
         const statusEl = document.getElementById("updateStatus");
         const installBtn = document.getElementById("btnInstallUpdate");
         if (!statusEl) return;
-        const message = status && status.message ? status.message : "Update: in asteptare.";
-        statusEl.textContent = message;
+        statusEl.textContent = updateStatusMessage(status);
         if (installBtn) installBtn.classList.toggle("hidden", !(status && status.state === "downloaded"));
       }
 
@@ -1070,7 +1482,7 @@
         }
         if (checkBtn && window.AppBridge && window.AppBridge.checkForUpdates) {
           checkBtn.addEventListener("click", async () => {
-            setUpdateUi({ state: "checking", message: "Verific update..." });
+            setUpdateUi({ state: "checking" });
             const res = await window.AppBridge.checkForUpdates();
             if (res && res.ok === false && res.message) setUpdateUi({ state: "error", message: res.message });
           });
@@ -1078,7 +1490,7 @@
         if (installBtn && window.AppBridge && window.AppBridge.installUpdate) {
           installBtn.addEventListener("click", async () => {
             installBtn.disabled = true;
-            setUpdateUi({ state: "installing", message: "Instalez update..." });
+            setUpdateUi({ state: "installing" });
             await window.AppBridge.installUpdate();
           });
         }
@@ -1094,7 +1506,7 @@
           if (btn) {
             btn.addEventListener("click", async ()=>{
               await navigator.clipboard.writeText(mid);
-              alert("Machine ID copiat în clipboard.");
+              alert(tr("machineIdCopied"));
             });
           }
         } catch(e){ console.error(e); }
@@ -1127,10 +1539,12 @@ async function __loadMachineId() {
       btn.addEventListener('click', async () => {
         try {
           await navigator.clipboard.writeText(id);
-          btn.textContent = 'Copiat ✓';
-          setTimeout(() => (btn.textContent = 'Copiază'), 1200);
+          const translate = window.BLS_TR || ((key) => key === "copied" ? "Copiat" : "Copiaza");
+          btn.textContent = translate("copied");
+          setTimeout(() => (btn.textContent = translate("copy")), 1200);
         } catch (e) {
-          alert('Nu pot copia automat. Selectează manual Machine ID.');
+          const translate = window.BLS_TR || (() => "Nu pot copia automat. Selecteaza manual Machine ID.");
+          alert(translate("copyManualFallback"));
         }
       });
     }

@@ -1,6 +1,6 @@
 {
   "name": "barcode-label-studio",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "Barcode Label Studio - Zebra label printing, Excel import, offline licensing and automatic updates.",
   "author": "AA Fast IT Solutions <aafastitsolutions@gmail.com>",
   "main": "main.js",
